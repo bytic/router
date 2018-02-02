@@ -27,6 +27,7 @@
   },
   "require": {
     "php": "^7.0",
+    "bytic/inflector": "^1.0",
     "bytic/http": "^1.0"
   },
   "require-dev": {

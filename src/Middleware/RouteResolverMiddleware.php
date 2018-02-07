@@ -2,10 +2,11 @@
 
 namespace Nip\Router\Middleware;
 
-use Interop\Http\ServerMiddleware\DelegateInterface;
 use Nip\Http\ServerMiddleware\Middlewares\ServerMiddlewareInterface;
 use Nip\Router\Router;
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
 
 /**
  * Class StartSession
@@ -34,11 +35,11 @@ class RouteResolverMiddleware implements ServerMiddlewareInterface
     /**
      * @inheritdoc
      */
-    public function process(ServerRequestInterface $request, DelegateInterface $delegate)
+    public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         $this->getRouter()->route($request);
 
-        return $delegate->process($request);
+        return $handler->handle($request);
     }
 
 

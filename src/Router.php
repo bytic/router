@@ -80,8 +80,9 @@ class Router
     {
         $current = false;
         $uri = $request->path();
+        $routes = $this->getRoutes();
 
-        foreach ($this->routes as $name => $route) {
+        foreach ($routes as $name => $route) {
             $route->setRequest($request);
             if ($route->match($uri)) {
                 $current = $route;

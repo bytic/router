@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7d8058c27c174b2c01b56b315ac6a849",
+    "content-hash": "9002ed72352ce338e6c43818a43ca21f",
     "packages": [
         {
             "name": "bytic/container",

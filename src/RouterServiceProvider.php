@@ -2,12 +2,12 @@
 
 namespace Nip\Router;
 
-use Nip\Container\ServiceProviders\Providers\AbstractSignatureServiceProvider;
+use Nip\Container\ServiceProvider\AbstractSignatureServiceProvider;
 use Nip\Router\Generator\UrlGenerator;
 
 /**
- * Class MailServiceProvider
- * @package Nip\Mail
+ * Class RouterServiceProvider
+ * @package Nip\Router
  */
 class RouterServiceProvider extends AbstractSignatureServiceProvider
 {
@@ -24,7 +24,7 @@ class RouterServiceProvider extends AbstractSignatureServiceProvider
 
     protected function registerRouter()
     {
-        $this->getContainer()->share('router', self::newRouter());
+        $this->getContainer()->singleton('router', self::newRouter());
     }
 
     /**
@@ -42,7 +42,7 @@ class RouterServiceProvider extends AbstractSignatureServiceProvider
      */
     protected function registerUrlGenerator()
     {
-        $this->getContainer()->share('url', function () {
+        $this->getContainer()->singleton('url', function () {
             $routes = app('router')->getRoutes();
 
             // The URL generator needs the route collection that exists on the router.

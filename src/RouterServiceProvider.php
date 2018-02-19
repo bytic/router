@@ -2,7 +2,7 @@
 
 namespace Nip\Router;
 
-use Nip\Container\ServiceProvider\AbstractSignatureServiceProvider;
+use Nip\Container\ServiceProviders\Providers\AbstractSignatureServiceProvider;
 use Nip\Router\Generator\UrlGenerator;
 
 /**

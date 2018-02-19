@@ -2,8 +2,8 @@
 
 namespace Nip\Router;
 
-use Nip\Container\ServiceProvider\AbstractSignatureServiceProvider;
-use Nip\Container\ServiceProvider\BootableServiceProviderInterface;
+use Nip\Container\ServiceProviders\Providers\AbstractSignatureServiceProvider;
+use Nip\Container\ServiceProviders\Providers\BootableServiceProviderInterface;
 
 /**
  * Class MailServiceProvider

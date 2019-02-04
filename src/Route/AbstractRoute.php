@@ -2,7 +2,9 @@
 
 namespace Nip\Router\Route;
 
-use Nip\Router\Parsers\AbstractParser;
+use Nip\Router\Route\Traits\HasParserTrait;
+use Nip\Router\Route\Traits\HasRequestTrait;
+use Nip\Router\Route\Traits\HasTypeTrait;
 use Nip\Utility\Traits\NameWorksTrait;
 
 /**
@@ -12,22 +14,16 @@ use Nip\Utility\Traits\NameWorksTrait;
 abstract class AbstractRoute
 {
     use NameWorksTrait;
+    use HasParserTrait;
+    use HasTypeTrait;
+    use HasRequestTrait;
 
     /**
      * @var string
      */
     protected $name = null;
 
-    /**
-     * @var string
-     */
-    protected $type = null;
-
-    protected $parser = null;
-
     protected $base = null;
-
-    protected $request = null;
 
     /**
      * @var string
@@ -51,86 +47,6 @@ abstract class AbstractRoute
         $this->init();
     }
 
-    /**
-     * @return AbstractParser
-     */
-    public function getParser()
-    {
-        if ($this->parser === null) {
-            $this->initParser();
-        }
-
-        return $this->parser;
-    }
-
-    /**
-     * @param $class
-     * @return $this
-     */
-    public function setParser($class)
-    {
-        $this->parser = $class;
-
-        return $this;
-    }
-
-    public function initParser()
-    {
-        $class = $this->getParserClass();
-        $parser = new $class;
-        $this->setParser($parser);
-    }
-
-    /**
-     * @return string
-     */
-    public function getParserClass()
-    {
-        return 'Nip\Router\Parsers\\' . inflector()->camelize($this->getType());
-    }
-
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        if ($this->type === null) {
-            $this->initType();
-        }
-
-        return $this->type;
-    }
-
-    /**
-     * @param string $type
-     * @return $this
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    protected function initType()
-    {
-        $this->setType($this->generateType());
-    }
-
-    /**
-     * @return string
-     */
-    protected function generateType()
-    {
-        if ($this->isNamespaced()) {
-            $name = strtolower($this->getClassFirstName());
-            return str_replace('route', '', $name);
-        }
-        $name = get_class($this);
-        $parts = explode('_', $name);
-
-        return strtolower(end($parts));
-    }
 
     public function init()
     {
@@ -259,27 +175,6 @@ abstract class AbstractRoute
     {
     }
 
-    public function populateRequest()
-    {
-        $params = $this->getParams();
-        foreach ($params as $param => $value) {
-            switch ($param) {
-                case 'module':
-                    $this->getRequest()->setModuleName($value);
-                    break;
-                case 'controller':
-                    $this->getRequest()->setControllerName($value);
-                    break;
-                case 'action':
-                    $this->getRequest()->setActionName($value);
-                    break;
-                default:
-                    $this->getRequest()->attributes->set($param, $value);
-                    break;
-            }
-        }
-        $this->getRequest()->attributes->add($this->getMatches());
-    }
 
     /**
      * @return array
@@ -287,22 +182,6 @@ abstract class AbstractRoute
     public function getParams()
     {
         return $this->getParser()->getParams();
-    }
-
-    /**
-     * @return \Nip\Request
-     */
-    public function getRequest()
-    {
-        return $this->request;
-    }
-
-    /**
-     * @param \Nip\Request $request
-     */
-    public function setRequest($request)
-    {
-        $this->request = $request;
     }
 
     /**

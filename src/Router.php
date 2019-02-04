@@ -4,6 +4,7 @@ namespace Nip\Router;
 
 use Nip\Request;
 use Nip\Router\Route\AbstractRoute as Route;
+use Nip\Router\Router\Traits\HasCurrentRouteTrait;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -12,17 +13,13 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class Router
 {
+    use HasCurrentRouteTrait;
 
     /**
      * @var \Nip\Request
      */
     protected $request;
 
-
-    /**
-     * @var Route
-     */
-    protected $route;
 
     /**
      * @var RouteCollection|Route[]
@@ -100,16 +97,6 @@ class Router
         }
     }
 
-    /**
-     * @param Route $route
-     * @return $this
-     */
-    public function setCurrent($route)
-    {
-        $this->route = $route;
-
-        return $this;
-    }
 
     /**
      * @param $name
@@ -187,13 +174,6 @@ class Router
         return null;
     }
 
-    /**
-     * @return Route
-     */
-    public function getCurrent()
-    {
-        return $this->route;
-    }
 
     /**
      * @param string $name

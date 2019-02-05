@@ -4,7 +4,7 @@ namespace Nip\Router\Tests\Route\Traits;
 
 use Nip\Router\Route\Route;
 use Nip\Router\Tests\AbstractTest;
-use Nip\Router\Tests\Fixtures\Route\StandardRoute;
+use Nip\Router\Tests\Fixtures\Application\Library\Router\Route\StandardRoute;
 
 /**
  * Class HasTypeTraitTest

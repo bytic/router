@@ -7,6 +7,7 @@ use ArrayIterator;
 use Countable;
 use IteratorAggregate;
 use Nip\Router\Route\Route;
+use Nip\Router\RouteCollections\Traits\RouteLoaderTrait;
 
 /**
  * Class RouteCollection
@@ -14,16 +15,9 @@ use Nip\Router\Route\Route;
  */
 class RouteCollection implements Countable, IteratorAggregate, ArrayAccess
 {
-    protected $routes = [];
+    use RouteLoaderTrait;
 
-    /**
-     * @param $path
-     */
-    public function loadFromIncludedPhp($path)
-    {
-        /** @noinspection PhpIncludeInspection */
-        require_once $path;
-    }
+    protected $routes = [];
 
     /**
      * @return int

@@ -5,6 +5,7 @@ namespace Nip\Router;
 use Nip\Request;
 use Nip\Router\Route\AbstractRoute as Route;
 use Nip\Router\Router\Traits\HasCurrentRouteTrait;
+use Nip\Router\Router\Traits\HasRouteCollectionTrait;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -13,18 +14,13 @@ use Psr\Http\Message\ServerRequestInterface;
  */
 class Router
 {
+    use HasRouteCollectionTrait;
     use HasCurrentRouteTrait;
 
     /**
      * @var \Nip\Request
      */
     protected $request;
-
-
-    /**
-     * @var RouteCollection|Route[]
-     */
-    protected $routes = null;
 
     /**
      * @param $name
@@ -33,40 +29,6 @@ class Router
     public function connected($name)
     {
         return ($this->getRoute($name) instanceof Route);
-    }
-
-    /**
-     * @param $name
-     * @return null|Route\Route
-     */
-    public function getRoute($name)
-    {
-        return $this->getRoutes()->get($name);
-    }
-
-    /**
-     * @return RouteCollection
-     */
-    public function getRoutes()
-    {
-        if ($this->routes === null) {
-            $this->initRoutes();
-        }
-
-        return $this->routes;
-    }
-
-    protected function initRoutes()
-    {
-        $this->routes = $this->newRoutesCollection();
-    }
-
-    /**
-     * @return RouteCollection
-     */
-    protected function newRoutesCollection()
-    {
-        return new RouteCollection();
     }
 
     /**

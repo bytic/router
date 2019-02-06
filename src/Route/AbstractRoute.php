@@ -11,7 +11,7 @@ use Nip\Utility\Traits\NameWorksTrait;
  * Class AbstractRoute
  * @package Nip\Router\Route
  */
-abstract class AbstractRoute
+abstract class AbstractRoute extends \Symfony\Component\Routing\Route
 {
     use NameWorksTrait;
     use HasParserTrait;

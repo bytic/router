@@ -7,6 +7,7 @@
       <sourceFolder url="file://$MODULE_DIR$/tests/src" isTestSource="true" packagePrefix="Nip\Router\Tests" />
       <sourceFolder url="file://$MODULE_DIR$/tests/fixtures" isTestSource="true" packagePrefix="Nip\Router\Tests\Fixtures" />
       <sourceFolder url="file://$MODULE_DIR$/tests/fixtures/application" isTestSource="true" packagePrefix="Nip\Router\Tests\Fixtures\Application" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/beberlei/assert" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/bytic/container" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/bytic/http" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/bytic/inflector" />
@@ -14,9 +15,12 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/bytic/utility" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/composer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/container-interop/container-interop" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/annotations" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/instantiator" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/doctrine/lexer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hamcrest/hamcrest-php" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/league/container" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/lstrojny/functional-php" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/mockery/mockery" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/myclabs/deep-copy" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nesbot/carbon" />
@@ -24,6 +28,9 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/paragonie/random_compat" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phar-io/manifest" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phar-io/version" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpbench/container" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpbench/dom" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/phpbench/phpbench" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpdocumentor/reflection-common" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpdocumentor/reflection-docblock" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/phpdocumentor/type-resolver" />
@@ -50,18 +57,25 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/recursion-context" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/resource-operations" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/sebastian/version" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/seld/jsonlint" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/console" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/contracts" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/debug" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/event-dispatcher" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/filesystem" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/finder" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/http-foundation" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/http-kernel" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/options-resolver" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-ctype" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-mbstring" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/polyfill-php70" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/process" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/routing" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/symfony/translation" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/theseer/tokenizer" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/assert" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/path-util" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

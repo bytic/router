@@ -2,6 +2,7 @@
 
 namespace Nip\Router\Route;
 
+use Nip\Router\Route\Traits\HasMatchTrait;
 use Nip\Router\Route\Traits\HasParserTrait;
 use Nip\Router\Route\Traits\HasRequestTrait;
 use Nip\Router\Route\Traits\HasTypeTrait;
@@ -17,6 +18,7 @@ abstract class AbstractRoute extends \Symfony\Component\Routing\Route
     use HasParserTrait;
     use HasTypeTrait;
     use HasRequestTrait;
+    use HasMatchTrait;
 
     /**
      * @var string
@@ -143,38 +145,6 @@ abstract class AbstractRoute extends \Symfony\Component\Routing\Route
     {
         return $this->getParser()->assemble($params);
     }
-
-    /**
-     * @param $uri
-     * @return bool
-     */
-    public function match($uri)
-    {
-        $this->uri = $uri;
-        if ($this->domainCheck()) {
-            $return = $this->getParser()->match($uri);
-            if ($return === true) {
-                $this->postMatch();
-            }
-
-            return $return;
-        }
-
-        return false;
-    }
-
-    /**
-     * @return bool
-     */
-    public function domainCheck()
-    {
-        return true;
-    }
-
-    public function postMatch()
-    {
-    }
-
 
     /**
      * @return array

@@ -37,6 +37,24 @@ trait HasRouteCollectionTrait
         return $this->routes;
     }
 
+    /**
+     * @param $name
+     * @return bool
+     */
+    public function connected($name)
+    {
+        return ($this->getRoute($name) instanceof Route);
+    }
+
+    /**
+     * @param string $name
+     * @return bool
+     */
+    public function hasRoute($name)
+    {
+        return $this->getRoutes()->has($name);
+    }
+
     protected function initRoutes()
     {
         $this->routes = $this->newRoutesCollection();

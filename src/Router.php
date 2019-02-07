@@ -5,8 +5,8 @@ namespace Nip\Router;
 use Nip\Request;
 use Nip\Router\Route\AbstractRoute as Route;
 use Nip\Router\Router\Traits\HasCurrentRouteTrait;
+use Nip\Router\Router\Traits\HasMatcherTrait;
 use Nip\Router\Router\Traits\HasRouteCollectionTrait;
-use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class Router
@@ -16,48 +16,12 @@ class Router
 {
     use HasRouteCollectionTrait;
     use HasCurrentRouteTrait;
+    use HasMatcherTrait;
 
     /**
      * @var \Nip\Request
      */
     protected $request;
-
-    /**
-     * @param $name
-     * @return bool
-     */
-    public function connected($name)
-    {
-        return ($this->getRoute($name) instanceof Route);
-    }
-
-    /**
-     * @param Request|ServerRequestInterface $request
-     * @return array
-     */
-    public function route($request)
-    {
-        $current = false;
-        $uri = $request->path();
-        $routes = $this->getRoutes();
-
-        foreach ($routes as $name => $route) {
-            $route->setRequest($request);
-            if ($route->match($uri)) {
-                $current = $route;
-                break;
-            }
-        }
-
-        if ($current instanceof Route) {
-            $this->setCurrent($current);
-            $current->populateRequest();
-
-            return $current->getParams() + $current->getMatches();
-        } else {
-            return [];
-        }
-    }
 
 
     /**
@@ -134,15 +98,5 @@ class Router
 
         trigger_error("Route \"$name\" not connected", E_USER_ERROR);
         return null;
-    }
-
-
-    /**
-     * @param string $name
-     * @return bool
-     */
-    public function hasRoute($name)
-    {
-        return $this->getRoutes()->has($name);
     }
 }

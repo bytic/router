@@ -2,10 +2,12 @@
 
 namespace Nip\Router\Route;
 
+use Nip\Router\Parsers\Dynamic;
 use Nip\Router\Route\Traits\HasMatchTrait;
 use Nip\Router\Route\Traits\HasParserTrait;
 use Nip\Router\Route\Traits\HasRequestTrait;
 use Nip\Router\Route\Traits\HasTypeTrait;
+use Nip\Router\Utility\MapTransform;
 use Nip\Utility\Traits\NameWorksTrait;
 
 /**
@@ -40,13 +42,22 @@ abstract class AbstractRoute extends \Symfony\Component\Routing\Route
     public function __construct($map = false, $params = [])
     {
         if ($map) {
-            $this->getParser()->setMap($map);
+            $parser = $this->getParser();
+            $parser->setMap($map);
+            if ($parser instanceof Dynamic) {
+                $map = MapTransform::run($map);
+            }
         }
+
+        parent::__construct($map);
+
 
         if (count($params)) {
             $this->getParser()->setParams($params);
+            $this->setDefaults($params);
         }
         $this->init();
+
     }
 
 

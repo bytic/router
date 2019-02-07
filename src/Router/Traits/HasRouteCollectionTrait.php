@@ -11,10 +11,18 @@ use Nip\Router\RouteCollection;
  */
 trait HasRouteCollectionTrait
 {
+
     /**
-     * @var RouteCollection|Route[]
+     * @inheritdoc
+     * @return RouteCollection
      */
-    protected $routes = null;
+    public function getRouteCollection()
+    {
+        if (null === $this->collection) {
+            $this->collection = $this->newRoutesCollection();
+        }
+        return parent::getRouteCollection();
+    }
 
     /**
      * @param $name
@@ -22,7 +30,7 @@ trait HasRouteCollectionTrait
      */
     public function getRoute($name)
     {
-        return $this->getRoutes()->get($name);
+        return $this->getRouteCollection()->get($name);
     }
 
     /**
@@ -30,11 +38,7 @@ trait HasRouteCollectionTrait
      */
     public function getRoutes()
     {
-        if ($this->routes === null) {
-            $this->initRoutes();
-        }
-
-        return $this->routes;
+        return $this->getRouteCollection();
     }
 
     /**
@@ -47,17 +51,20 @@ trait HasRouteCollectionTrait
     }
 
     /**
+     * @param Route $route
+     */
+    public function addRoute($route)
+    {
+        $this->getRouteCollection()->add($route);
+    }
+
+    /**
      * @param string $name
      * @return bool
      */
     public function hasRoute($name)
     {
         return $this->getRoutes()->has($name);
-    }
-
-    protected function initRoutes()
-    {
-        $this->routes = $this->newRoutesCollection();
     }
 
     /**

@@ -7,16 +7,25 @@ use Nip\Router\Route\AbstractRoute as Route;
 use Nip\Router\Router\Traits\HasCurrentRouteTrait;
 use Nip\Router\Router\Traits\HasMatcherTrait;
 use Nip\Router\Router\Traits\HasRouteCollectionTrait;
+use Symfony\Component\Routing\Loader\ClosureLoader;
 
 /**
  * Class Router
  * @package Nip\Router
  */
-class Router
+class Router extends \Symfony\Component\Routing\Router
 {
     use HasRouteCollectionTrait;
     use HasCurrentRouteTrait;
     use HasMatcherTrait;
+
+
+    public function __construct()
+    {
+        $loader = new ClosureLoader();
+
+        return parent::__construct($loader, null);
+    }
 
     /**
      * @var \Nip\Request

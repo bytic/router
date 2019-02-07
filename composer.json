@@ -33,6 +33,7 @@
     "bytic/container": "^0.9",
     "bytic/utility": "^1.0",
     "bytic/http": "^0.9",
+    "symfony/config": "^4.2",
     "symfony/routing": "^4.2"
   },
   "require-dev": {

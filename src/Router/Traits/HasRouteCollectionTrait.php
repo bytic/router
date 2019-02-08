@@ -34,7 +34,7 @@ trait HasRouteCollectionTrait
     }
 
     /**
-     * @return RouteCollection
+     * @return RouteCollection|Route[]
      */
     public function getRoutes()
     {

@@ -4,112 +4,34 @@ namespace Nip\Router;
 
 use Nip\Request;
 use Nip\Router\Route\AbstractRoute as Route;
-use Psr\Http\Message\ServerRequestInterface;
+use Nip\Router\Router\Traits\HasCurrentRouteTrait;
+use Nip\Router\Router\Traits\HasMatcherTrait;
+use Nip\Router\Router\Traits\HasRouteCollectionTrait;
+use Symfony\Component\Routing\Loader\ClosureLoader;
 
 /**
  * Class Router
  * @package Nip\Router
  */
-class Router
+class Router extends \Symfony\Component\Routing\Router
 {
+    use HasRouteCollectionTrait;
+    use HasCurrentRouteTrait;
+    use HasMatcherTrait;
+
+
+    public function __construct()
+    {
+        $loader = new ClosureLoader();
+
+        return parent::__construct($loader, null);
+    }
 
     /**
      * @var \Nip\Request
      */
     protected $request;
 
-
-    /**
-     * @var Route
-     */
-    protected $route;
-
-    /**
-     * @var RouteCollection|Route[]
-     */
-    protected $routes = null;
-
-    /**
-     * @param $name
-     * @return bool
-     */
-    public function connected($name)
-    {
-        return ($this->getRoute($name) instanceof Route);
-    }
-
-    /**
-     * @param $name
-     * @return null|Route\Route
-     */
-    public function getRoute($name)
-    {
-        return $this->getRoutes()->get($name);
-    }
-
-    /**
-     * @return RouteCollection
-     */
-    public function getRoutes()
-    {
-        if ($this->routes === null) {
-            $this->initRoutes();
-        }
-
-        return $this->routes;
-    }
-
-    protected function initRoutes()
-    {
-        $this->routes = $this->newRoutesCollection();
-    }
-
-    /**
-     * @return RouteCollection
-     */
-    protected function newRoutesCollection()
-    {
-        return new RouteCollection();
-    }
-
-    /**
-     * @param Request|ServerRequestInterface $request
-     * @return array
-     */
-    public function route($request)
-    {
-        $current = false;
-        $uri = $request->path();
-        $routes = $this->getRoutes();
-
-        foreach ($routes as $name => $route) {
-            $route->setRequest($request);
-            if ($route->match($uri)) {
-                $current = $route;
-                break;
-            }
-        }
-
-        if ($current instanceof Route) {
-            $this->setCurrent($current);
-            $current->populateRequest();
-
-            return $current->getParams() + $current->getMatches();
-        } else {
-            return [];
-        }
-    }
-
-    /**
-     * @param Route $route
-     * @return $this
-     */
-    public function setCurrent($route)
-    {
-        $this->route = $route;
-
-        return $this;
-    }
 
     /**
      * @param $name
@@ -185,22 +107,5 @@ class Router
 
         trigger_error("Route \"$name\" not connected", E_USER_ERROR);
         return null;
-    }
-
-    /**
-     * @return Route
-     */
-    public function getCurrent()
-    {
-        return $this->route;
-    }
-
-    /**
-     * @param string $name
-     * @return bool
-     */
-    public function hasRoute($name)
-    {
-        return $this->getRoutes()->has($name);
     }
 }

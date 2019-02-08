@@ -2,32 +2,32 @@
 
 namespace Nip\Router\Route;
 
-use Nip\Router\Parsers\AbstractParser;
+use Nip\Router\Parsers\Dynamic;
+use Nip\Router\Route\Traits\HasMatchTrait;
+use Nip\Router\Route\Traits\HasParserTrait;
+use Nip\Router\Route\Traits\HasRequestTrait;
+use Nip\Router\Route\Traits\HasTypeTrait;
+use Nip\Router\Utility\MapTransform;
 use Nip\Utility\Traits\NameWorksTrait;
 
 /**
  * Class AbstractRoute
  * @package Nip\Router\Route
  */
-abstract class AbstractRoute
+abstract class AbstractRoute extends \Symfony\Component\Routing\Route
 {
     use NameWorksTrait;
+    use HasParserTrait;
+    use HasTypeTrait;
+    use HasRequestTrait;
+    use HasMatchTrait;
 
     /**
      * @var string
      */
     protected $name = null;
 
-    /**
-     * @var string
-     */
-    protected $type = null;
-
-    protected $parser = null;
-
     protected $base = null;
-
-    protected $request = null;
 
     /**
      * @var string
@@ -42,95 +42,24 @@ abstract class AbstractRoute
     public function __construct($map = false, $params = [])
     {
         if ($map) {
-            $this->getParser()->setMap($map);
+            $parser = $this->getParser();
+            $parser->setMap($map);
+            if ($parser instanceof Dynamic) {
+                $map = MapTransform::run($map);
+            }
         }
+
+        parent::__construct($map);
+
 
         if (count($params)) {
             $this->getParser()->setParams($params);
+            $this->setDefaults($params);
         }
         $this->init();
+
     }
 
-    /**
-     * @return AbstractParser
-     */
-    public function getParser()
-    {
-        if ($this->parser === null) {
-            $this->initParser();
-        }
-
-        return $this->parser;
-    }
-
-    /**
-     * @param $class
-     * @return $this
-     */
-    public function setParser($class)
-    {
-        $this->parser = $class;
-
-        return $this;
-    }
-
-    public function initParser()
-    {
-        $class = $this->getParserClass();
-        $parser = new $class;
-        $this->setParser($parser);
-    }
-
-    /**
-     * @return string
-     */
-    public function getParserClass()
-    {
-        return 'Nip\Router\Parsers\\' . inflector()->camelize($this->getType());
-    }
-
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        if ($this->type === null) {
-            $this->initType();
-        }
-
-        return $this->type;
-    }
-
-    /**
-     * @param string $type
-     * @return $this
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    protected function initType()
-    {
-        $this->setType($this->generateType());
-    }
-
-    /**
-     * @return string
-     */
-    protected function generateType()
-    {
-        if ($this->isNamespaced()) {
-            $name = strtolower($this->getClassFirstName());
-            return str_replace('route', '', $name);
-        }
-        $name = get_class($this);
-        $parts = explode('_', $name);
-
-        return strtolower(end($parts));
-    }
 
     public function init()
     {
@@ -229,80 +158,11 @@ abstract class AbstractRoute
     }
 
     /**
-     * @param $uri
-     * @return bool
-     */
-    public function match($uri)
-    {
-        $this->uri = $uri;
-        if ($this->domainCheck()) {
-            $return = $this->getParser()->match($uri);
-            if ($return === true) {
-                $this->postMatch();
-            }
-
-            return $return;
-        }
-
-        return false;
-    }
-
-    /**
-     * @return bool
-     */
-    public function domainCheck()
-    {
-        return true;
-    }
-
-    public function postMatch()
-    {
-    }
-
-    public function populateRequest()
-    {
-        $params = $this->getParams();
-        foreach ($params as $param => $value) {
-            switch ($param) {
-                case 'module':
-                    $this->getRequest()->setModuleName($value);
-                    break;
-                case 'controller':
-                    $this->getRequest()->setControllerName($value);
-                    break;
-                case 'action':
-                    $this->getRequest()->setActionName($value);
-                    break;
-                default:
-                    $this->getRequest()->attributes->set($param, $value);
-                    break;
-            }
-        }
-        $this->getRequest()->attributes->add($this->getMatches());
-    }
-
-    /**
      * @return array
      */
     public function getParams()
     {
         return $this->getParser()->getParams();
-    }
-
-    /**
-     * @return \Nip\Request
-     */
-    public function getRequest()
-    {
-        return $this->request;
-    }
-
-    /**
-     * @param \Nip\Request $request
-     */
-    public function setRequest($request)
-    {
-        $this->request = $request;
     }
 
     /**

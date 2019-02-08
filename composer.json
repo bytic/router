@@ -22,7 +22,9 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Nip\\Router\\Tests\\": "tests/"
+      "Nip\\Router\\Tests\\Fixtures\\Application\\": "tests/fixtures/application",
+      "Nip\\Router\\Tests\\Fixtures\\": "tests/fixtures",
+      "Nip\\Router\\Tests\\": "tests/src"
     }
   },
   "require": {
@@ -30,11 +32,13 @@
     "bytic/inflector": "^1.0",
     "bytic/container": "^1.0",
     "bytic/utility": "^1.0",
-    "bytic/http": "^1.0"
+    "bytic/http": "^1.0",
+    "symfony/config": "^4.2",
+    "symfony/routing": "^4.2"
   },
   "require-dev": {
-    "squizlabs/php_codesniffer": "^3.0",
-    "phpunit/phpunit": "^6.2",
-    "mockery/mockery": "^0.9"
+    "phpunit/phpunit": "^7.5",
+    "mockery/mockery": "^1.0",
+    "phpbench/phpbench": "^0.15.0"
   }
 }

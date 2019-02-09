@@ -6,27 +6,14 @@ use Nip\Request;
 use Nip\Router\RouteCollection;
 use Nip\Utility\Arr;
 use Nip\Utility\Str;
+use Symfony\Component\Routing\RequestContext;
 
 /**
  * Class UrlGenerator
  * @package Nip\Router\Generator
  */
-class UrlGenerator
+class UrlGenerator extends \Symfony\Component\Routing\Generator\UrlGenerator
 {
-
-    /**
-     * The route collection.
-     *
-     * @var RouteCollection
-     */
-    protected $routes;
-
-    /**
-     * The request instance.
-     *
-     * @var Request
-     */
-    protected $request;
 
     /**
      * A cached copy of the URL root for the current request.
@@ -71,30 +58,17 @@ class UrlGenerator
     protected $formatPathUsing;
 
     /**
-     * Create a new URL Generator instance.
-     *
-     * @param  RouteCollection $routes
-     * @param  Request $request
-     */
-    public function __construct(RouteCollection $routes, Request $request)
-    {
-        $this->routes = $routes;
-        $this->setRequest($request);
-    }
-
-    /**
      * Set the current request instance.
      *
      * @param  Request $request
-     * @return void
      */
     public function setRequest(Request $request)
     {
-        $this->request = $request;
+        $context = (new RequestContext())->fromRequest($request);
 
         $this->cachedRoot = null;
         $this->cachedSchema = null;
-//        $this->routeGenerator = null;
+        return $this->setContext($context);
     }
 
     /**
@@ -114,7 +88,7 @@ class UrlGenerator
      */
     public function current()
     {
-        return $this->to($this->request->getPathInfo());
+        return $this->to($this->getContext()->getPathInfo());
     }
 
     /**

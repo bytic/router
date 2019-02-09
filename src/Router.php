@@ -3,6 +3,7 @@
 namespace Nip\Router;
 
 use Nip\Request;
+use Nip\Router\Generator\UrlGenerator;
 use Nip\Router\Route\AbstractRoute as Route;
 use Nip\Router\Router\Traits\HasCurrentRouteTrait;
 use Nip\Router\Router\Traits\HasGeneratorTrait;
@@ -24,8 +25,10 @@ class Router extends \Symfony\Component\Routing\Router
     public function __construct()
     {
         $loader = new ClosureLoader();
-
-        return parent::__construct($loader, null);
+        $options = [
+            'generator_class' => UrlGenerator::class,
+        ];
+        return parent::__construct($loader, null, $options);
     }
 
     /**

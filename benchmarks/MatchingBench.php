@@ -7,12 +7,12 @@ use Nip\Router\Router;
 use Nip\Router\Tests\Fixtures\Application\Library\Router\Route\StandardRoute;
 
 /**
- * Class RouterBench
+ * Class MatchingBench
  * @Iterations(5)
  * @Revs(100)
  * @BeforeMethods({"init"})
  */
-class RouterBench
+class MatchingBench
 {
     /**
      * @var Router

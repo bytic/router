@@ -4,11 +4,12 @@ namespace Nip\Router;
 
 use Nip\Request;
 use Nip\Router\Generator\UrlGenerator;
-use Nip\Router\Route\AbstractRoute as Route;
 use Nip\Router\Router\Traits\HasCurrentRouteTrait;
 use Nip\Router\Router\Traits\HasGeneratorTrait;
 use Nip\Router\Router\Traits\HasMatcherTrait;
 use Nip\Router\Router\Traits\HasRouteCollectionTrait;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Routing\Loader\ClosureLoader;
 
 /**
@@ -22,20 +23,26 @@ class Router extends \Symfony\Component\Routing\Router
     use HasMatcherTrait;
     use HasGeneratorTrait;
 
-    public function __construct()
-    {
-        $loader = new ClosureLoader();
-        $options = [
-            'generator_class' => UrlGenerator::class,
-        ];
-        return parent::__construct($loader, null, $options);
+    /**
+     * @inheritdoc
+     */
+    public function __construct(
+        LoaderInterface $loader = null,
+        $resource = null,
+        array $options = [],
+        RequestContext $context = null,
+        LoggerInterface $logger = null
+    ) {
+        $loader = $loader ?: new ClosureLoader();
+        $options['generator_class'] = isset($options['generator_class']) ? $options['generator_class'] : UrlGenerator::class;
+        $context = $context ?: new RequestContext();
+        return parent::__construct($loader, $resource, $options, $context, $logger);
     }
 
     /**
      * @var \Nip\Request
      */
     protected $request;
-
 
 
     /**

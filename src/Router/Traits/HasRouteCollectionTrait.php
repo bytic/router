@@ -55,7 +55,7 @@ trait HasRouteCollectionTrait
      */
     public function addRoute($route)
     {
-        $this->getRouteCollection()->add($route);
+        $this->getRouteCollection()->addRoute($route);
     }
 
     /**

@@ -3,10 +3,13 @@
 namespace Nip\Router;
 
 use Nip\Request;
-use Nip\Router\Route\AbstractRoute as Route;
+use Nip\Router\Generator\UrlGenerator;
 use Nip\Router\Router\Traits\HasCurrentRouteTrait;
+use Nip\Router\Router\Traits\HasGeneratorTrait;
 use Nip\Router\Router\Traits\HasMatcherTrait;
 use Nip\Router\Router\Traits\HasRouteCollectionTrait;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Routing\Loader\ClosureLoader;
 
 /**
@@ -18,13 +21,22 @@ class Router extends \Symfony\Component\Routing\Router
     use HasRouteCollectionTrait;
     use HasCurrentRouteTrait;
     use HasMatcherTrait;
+    use HasGeneratorTrait;
 
-
-    public function __construct()
-    {
-        $loader = new ClosureLoader();
-
-        return parent::__construct($loader, null);
+    /**
+     * @inheritdoc
+     */
+    public function __construct(
+        LoaderInterface $loader = null,
+        $resource = null,
+        array $options = [],
+        RequestContext $context = null,
+        LoggerInterface $logger = null
+    ) {
+        $loader = $loader ?: new ClosureLoader();
+        $options['generator_class'] = isset($options['generator_class']) ? $options['generator_class'] : UrlGenerator::class;
+        $context = $context ?: new RequestContext();
+        return parent::__construct($loader, $resource, $options, $context, $logger);
     }
 
     /**
@@ -32,48 +44,6 @@ class Router extends \Symfony\Component\Routing\Router
      */
     protected $request;
 
-
-    /**
-     * @param $name
-     * @param boolean $params
-     * @return string
-     */
-    public function assembleFull($name, $params = [])
-    {
-        $route = $this->getDefaultRoute($name, $params);
-        if ($route) {
-            $route->setRequest($this->getRequest());
-            return $route->assembleFull($params);
-        }
-
-        trigger_error("Route \"$name\" not connected", E_USER_ERROR);
-
-        return null;
-    }
-
-    /**
-     * @param $name
-     * @param array $params
-     * @return null|Route\Route
-     */
-    public function getDefaultRoute($name, &$params = [])
-    {
-        $route = $this->getRoute($name);
-        if (!$route) {
-            $parts = explode(".", $name);
-            $count = count($parts);
-            if ($count <= 3) {
-                if (in_array(reset($parts), app('mvc.modules')->getNames())) {
-                    $module = array_shift($parts);
-                    $params['controller'] = isset($parts[0]) ? $parts[0] : null;
-                    $params['action'] = isset($parts[1]) ? $parts[1] : null;
-                    $route = $this->getRoute($module . '.default');
-                }
-            }
-        }
-
-        return $route;
-    }
 
     /**
      * @return Request
@@ -91,21 +61,4 @@ class Router extends \Symfony\Component\Routing\Router
         $this->request = $request;
     }
 
-    /**
-     * @param $name
-     * @param boolean $params
-     * @return string|null
-     */
-    public function assemble($name, $params = [])
-    {
-        $route = $this->getDefaultRoute($name, $params);
-
-        if ($route) {
-            $route->setRequest($this->getRequest());
-            return $route->assemble($params);
-        }
-
-        trigger_error("Route \"$name\" not connected", E_USER_ERROR);
-        return null;
-    }
 }

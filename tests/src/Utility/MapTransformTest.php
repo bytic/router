@@ -31,7 +31,7 @@ class MapTransformTest extends AbstractTest
             ['simple', 'simple'],
             ['/index/index', '/index/index'],
             ['/admin/:index', '/admin/{index}'],
-            ['/admin/:controller/:action', '/admin/{controller}/{action}'],
+            ['/admin/:controller/:action', '/admin/{controller}/{action?index}'],
         ];
     }
 }

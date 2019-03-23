@@ -57,14 +57,15 @@ trait CollectionsOperationsTrait
     /**
      * @param Route $route
      * @param null $name
+     * @return
      */
-    public function add($route, $name = null)
+    public function addRoute($route, $name = null)
     {
         if ($name) {
             $route->setName($name);
         } else {
             $name = $route->getName();
         }
-        parent::add($name, $route);
+        return $this->add($name, $route);
     }
 }

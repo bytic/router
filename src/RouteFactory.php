@@ -70,7 +70,7 @@ class RouteFactory
         $map = str_replace('//', '/', $map);
 
         $route = new $class($map, $params);
-        return $collection->add($route, $name);
+        return $collection->addRoute($route, $name);
     }
 
     /**

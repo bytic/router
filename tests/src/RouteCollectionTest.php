@@ -17,7 +17,7 @@ class RouteCollectionTest extends AbstractTest
 
         $route = new Route();
         $route->setName('test');
-        $collection->add($route);
+        $collection->addRoute($route);
 
 
         self::assertInstanceOf(Route::class, $collection['test']);
@@ -33,7 +33,7 @@ class RouteCollectionTest extends AbstractTest
 
         $route = new Route();
         $route->setName('test');
-        $collection->add($route);
+        $collection->addRoute($route);
 
 
         self::assertCount(1, $collection);

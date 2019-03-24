@@ -15,7 +15,6 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
  */
 class RouterTest extends AbstractTest
 {
-
     public function testMatchRequest404()
     {
         $router = new Router();

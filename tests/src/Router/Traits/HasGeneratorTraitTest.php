@@ -14,7 +14,6 @@ use Nip\Router\Tests\Fixtures\Application\Library\Router\Route\StandardRoute;
  */
 class HasGeneratorTraitTest extends AbstractTest
 {
-
     public function testAssemble()
     {
         $router = new Router();

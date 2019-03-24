@@ -15,7 +15,6 @@ use Nip\Router\Tests\Fixtures\Application\Library\Router\Route\StandardRoute;
  */
 class HasMatcherTraitTest extends AbstractTest
 {
-
     public function testRouteLiteral()
     {
         $router = new Router();

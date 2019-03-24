@@ -42,5 +42,4 @@ trait HasPreviousUrlTrait
 //        $session = $this->getSession();
 //        return $session ? $session->previousUrl() : null;
     }
-
 }

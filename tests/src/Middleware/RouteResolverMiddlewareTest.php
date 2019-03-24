@@ -15,7 +15,6 @@ use Nip\Request;
  */
 class RouteResolverMiddlewareTest extends AbstractTest
 {
-
     public function testProcess()
     {
         $request = Request::create('/test');

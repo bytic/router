@@ -32,5 +32,4 @@ class UrlGenerator extends \Symfony\Component\Routing\Generator\UrlGenerator
         $this->cachedSchema = null;
         return $this->setContext($context);
     }
-
 }

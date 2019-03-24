@@ -16,4 +16,3 @@ abstract class AbstractTest extends TestCase
      */
     protected $tester;
 }
-

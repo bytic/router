@@ -126,7 +126,21 @@ abstract class AbstractRoute extends \Symfony\Component\Routing\Route
      */
     public function initBase($params = [])
     {
-        $this->setBase(BASE_URL);
+        $this->setBase(
+            $this->generateBase($params)
+        );
+    }
+
+    /**
+     * @param $params
+     * @return string
+     */
+    protected function generateBase($params)
+    {
+        if (function_exists('request')) {
+            return request()->getBaseUrl();
+        }
+        return $this->getRequest()->getBaseUrl();
     }
 
     /**

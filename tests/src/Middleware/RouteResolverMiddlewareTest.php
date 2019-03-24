@@ -18,7 +18,9 @@ class RouteResolverMiddlewareTest extends AbstractTest
 
     public function testProcess()
     {
-        $router = new Router();
+        $request = Request::create('/test');
+        $router =\Mockery::mock(Router::class);
+        $router->shouldReceive('matchRequest')->with($request);
 
         $dispatcher = new Dispatcher(
             [
@@ -30,7 +32,7 @@ class RouteResolverMiddlewareTest extends AbstractTest
         );
 
         /** @var Response $response */
-        $response = $dispatcher->dispatch(new Request());
+        $response = $dispatcher->dispatch($request);
 
         self::assertInstanceOf(Response::class, $response);
         self::assertSame('test', $response->getContent());

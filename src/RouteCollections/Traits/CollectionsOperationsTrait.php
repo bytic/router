@@ -11,11 +11,6 @@ use Nip\Router\Route\Route;
 trait CollectionsOperationsTrait
 {
     /**
-     * @var Route[]
-     */
-    protected $routes = [];
-
-    /**
      * @inheritdoc
      * @deprecated Use all()
      */
@@ -29,7 +24,19 @@ trait CollectionsOperationsTrait
      */
     public function setRoutes($routes)
     {
-        $this->routes = $routes;
+        foreach ($routes as $route) {
+            $this->addRoute($route);
+        }
+    }
+
+    /**
+     * @param Route $route
+     */
+    public function prependRoute($route)
+    {
+        $routes = $this->all();
+        $this->addRoute($route);
+        $this->setRoutes($routes);
     }
 
     /**

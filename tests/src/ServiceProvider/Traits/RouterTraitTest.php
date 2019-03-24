@@ -1,16 +1,17 @@
 <?php
 
-namespace Nip\Router\Tests;
+namespace Nip\Router\Tests\ServiceProvider\Traits;
 
 use Nip\Container\Container;
 use Nip\Router\Router;
 use Nip\Router\RouterServiceProvider;
+use Nip\Router\Tests\AbstractTest;
 
 /**
  * Class RouterServiceProviderTest
- * @package Nip\Router\Tests
+ * @package Nip\Router\Tests\ServiceProvider\Traits
  */
-class RouterServiceProviderTest extends AbstractTest
+class RouterTraitTest extends AbstractTest
 {
     public function testRegisterRouter()
     {

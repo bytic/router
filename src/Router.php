@@ -60,5 +60,4 @@ class Router extends \Symfony\Component\Routing\Router
     {
         $this->request = $request;
     }
-
 }

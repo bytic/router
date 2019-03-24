@@ -57,7 +57,6 @@ abstract class AbstractRoute extends \Symfony\Component\Routing\Route
             $this->setDefaults($params);
         }
         $this->init();
-
     }
 
 

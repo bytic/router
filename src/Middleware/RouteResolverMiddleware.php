@@ -26,7 +26,7 @@ class RouteResolverMiddleware implements ServerMiddlewareInterface
     /**
      * Create a new session middleware.
      *
-     * @param  Router $router
+     * @param Router $router
      */
     public function __construct(Router $router)
     {
@@ -39,11 +39,37 @@ class RouteResolverMiddleware implements ServerMiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $this->getRouter()->matchRequest($request);
+        $return = $this->getRouter()->matchRequest($request);
+        if ($return['_route']) {
+            $this->populateRequest($request, $return);
+        }
 
         return $handler->handle($request);
     }
 
+    /**
+     * @param Request $request
+     * @param $params
+     */
+    protected function populateRequest($request, $params)
+    {
+        foreach ($params as $param => $value) {
+            switch ($param) {
+                case 'module':
+                    $request->setModuleName($value);
+                    break;
+                case 'controller':
+                    $request->setControllerName($value);
+                    break;
+                case 'action':
+                    $request->setActionName($value);
+                    break;
+                default:
+                    $request->attributes->set($param, $value);
+                    break;
+            }
+        }
+    }
 
     /**
      * @return Router

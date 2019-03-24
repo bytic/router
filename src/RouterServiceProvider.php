@@ -22,7 +22,7 @@ class RouterServiceProvider extends AbstractSignatureServiceProvider
         $this->registerUrlGenerator();
     }
 
-    protected function registerRouter()
+    public function registerRouter()
     {
         $this->getContainer()->singleton('router', self::newRouter());
     }

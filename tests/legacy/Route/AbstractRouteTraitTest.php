@@ -11,6 +11,16 @@ use Nip\Router\Tests\AbstractTest;
  */
 class AbstractRouteTraitTest extends AbstractTest
 {
+    public function testSetParamsNotOverwriteMapDefaults()
+    {
+        $route = new Route('/{controller}/{action?index}');
+        self::assertSame(['action' => 'index'], $route->getDefaults());
+
+        $params = ['test' => 9];
+        $route->setParams($params);
+        self::assertEquals(['test' => 9, 'action' => 'index'], $route->getDefaults());
+    }
+
     public function testSetParams()
     {
         $route = new Route();
@@ -18,6 +28,6 @@ class AbstractRouteTraitTest extends AbstractTest
 
         $params = ['test' => 9];
         $route->setParams($params);
-        self::assertSame($params, $route->getDefaults());
+        self::assertEquals($params, $route->getDefaults());
     }
 }

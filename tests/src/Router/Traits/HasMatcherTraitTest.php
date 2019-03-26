@@ -52,10 +52,23 @@ class HasMatcherTraitTest extends AbstractTest
         $router = new Router();
         $collection = $router->getRoutes();
 
-        RouteFactory::generateStandardRoute($collection, "admin.standard", StandardRoute::class, "/admin",
+        RouteFactory::generateStandardRoute(
+            $collection,
+            "admin.standard",
+            StandardRoute::class,
+            "/admin",
             '/:controller/:action', ['module' => 'admin']);
-        RouteFactory::generateStandardRoute($collection, "api.standard", StandardRoute::class, "/api",
+        RouteFactory::generateStandardRoute(
+            $collection, "api.standard",
+            StandardRoute::class,
+            "/api",
             '/:controller/:action', ['module' => 'api']);
+
+        RouteFactory::generateStandardRoute(
+            $collection,
+            "frontend.standard",
+            StandardRoute::class,
+            "/");
 
         $request = Request::create('/api/pages/delete');
         self::assertEquals(
@@ -63,9 +76,39 @@ class HasMatcherTraitTest extends AbstractTest
             $router->matchRequest($request)
         );
 
+        $request = Request::create('/api/pages/');
+        self::assertEquals(
+            ['module' => 'api', 'controller' => 'pages', 'action' => 'index', '_route' => 'api.standard'],
+            $router->matchRequest($request)
+        );
+
+        $request = Request::create('/api/pages');
+        self::assertEquals(
+            ['module' => 'api', 'controller' => 'pages', 'action' => 'index', '_route' => 'api.standard'],
+            $router->matchRequest($request)
+        );
+
         $request = Request::create('/admin/pages/delete');
         self::assertEquals(
             ['module' => 'admin', 'controller' => 'pages', 'action' => 'delete', '_route' => 'admin.standard'],
+            $router->matchRequest($request)
+        );
+
+        $request = Request::create('/users/delete');
+        self::assertEquals(
+            ['controller' => 'users', 'action' => 'delete', '_route' => 'frontend.standard'],
+            $router->matchRequest($request)
+        );
+
+        $request = Request::create('/users/');
+        self::assertEquals(
+            ['controller' => 'users', 'action' => 'index', '_route' => 'frontend.standard'],
+            $router->matchRequest($request)
+        );
+
+        $request = Request::create('/users');
+        self::assertEquals(
+            ['controller' => 'users', 'action' => 'index', '_route' => 'frontend.standard'],
             $router->matchRequest($request)
         );
     }

@@ -15,6 +15,6 @@ trait AbstractRouteTrait
     public function setParams($params = [])
     {
         $this->getParser()->setParams($params);
-        $this->setDefaults($params);
+        $this->addDefaults($params);
     }
 }

@@ -28,7 +28,7 @@ class HasGeneratorTraitTest extends AbstractTest
         );
 
         self::assertSame(
-            '/api/posts/',
+            '/api/posts',
             $router->assemble('api.index', ['controller' => 'posts'])
         );
 

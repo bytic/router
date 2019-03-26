@@ -2,6 +2,7 @@
 
 namespace Nip\Router\Router\Traits;
 
+use Nip\Router\Route\Route;
 use Nip\Router\Router;
 
 /**
@@ -19,14 +20,14 @@ trait HasGeneratorTrait
     public function assemble($name, $params = [])
     {
         $route = $this->getDefaultRoute($name, $params);
-
-        if ($route) {
-            $route->setRequest($this->getRequest());
-            return $route->assemble($params);
-        }
-
-        trigger_error("Route \"$name\" not connected", E_USER_ERROR);
-        return null;
+        return $this->generate($route->getName(), $params);
+//        if ($route) {
+//            $route->setRequest($this->getRequest());
+//            return $route->assemble($params);
+//        }
+//
+//        trigger_error("Route \"$name\" not connected", E_USER_ERROR);
+//        return null;
     }
 
     /**
@@ -50,7 +51,7 @@ trait HasGeneratorTrait
     /**
      * @param $name
      * @param array $params
-     * @return null|Route\Route
+     * @return null|Route
      */
     public function getDefaultRoute($name, &$params = [])
     {

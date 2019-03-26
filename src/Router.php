@@ -6,6 +6,7 @@ use Nip\Request;
 use Nip\Router\Generator\UrlGenerator;
 use Nip\Router\Router\Traits\HasCurrentRouteTrait;
 use Nip\Router\Router\Traits\HasGeneratorTrait;
+use Nip\Router\Legacy\Router\Traits\HasMatcherTrait as LegacyHasMatcherTrait;
 use Nip\Router\Router\Traits\HasMatcherTrait;
 use Nip\Router\Router\Traits\HasRouteCollectionTrait;
 use Psr\Log\LoggerInterface;
@@ -18,10 +19,12 @@ use Symfony\Component\Routing\Loader\ClosureLoader;
  */
 class Router extends \Symfony\Component\Routing\Router
 {
+    use LegacyHasMatcherTrait;
+
     use HasRouteCollectionTrait;
     use HasCurrentRouteTrait;
-    use HasMatcherTrait;
     use HasGeneratorTrait;
+    use HasMatcherTrait;
 
     /**
      * @inheritdoc

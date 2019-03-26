@@ -61,7 +61,7 @@ class RouterTest extends AbstractTest
 
         $request = Request::create('/admin/post/create');
         $params = $router->matchRequest($request);
-        self::assertSame(
+        self::assertEquals(
             ['module' => 'admin', 'controller' => 'post', 'action' => 'create', '_route' => 'admin.standard'],
             $params
         );

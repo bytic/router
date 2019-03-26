@@ -17,8 +17,11 @@
 >
 
     <testsuites>
-        <testsuite name="ByTIC Framework Test Suite">
-            <directory suffix="Test.php">./tests</directory>
+        <testsuite name="Router Test Suite">
+            <directory suffix="Test.php">./tests/src</directory>
+        </testsuite>
+        <testsuite name="Router Legacy Test Suite">
+            <directory suffix="Test.php">./tests/legacy</directory>
         </testsuite>
     </testsuites>
 

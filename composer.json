@@ -12,9 +12,11 @@
   ],
   "autoload": {
     "psr-4": {
-      "Nip\\Router\\": "src"
+      "Nip\\Router\\": "src",
+      "Nip\\Router\\Legacy\\": "legacy"
     },
     "classmap": [
+      "legacy",
       "src"
     ],
     "files": [
@@ -24,7 +26,8 @@
     "psr-4": {
       "Nip\\Router\\Tests\\Fixtures\\Application\\": "tests/fixtures/application",
       "Nip\\Router\\Tests\\Fixtures\\": "tests/fixtures",
-      "Nip\\Router\\Tests\\": "tests/src"
+      "Nip\\Router\\Tests\\": "tests/src",
+      "Nip\\Router\\Tests\\Legacy\\": "tests/legacy"
     }
   },
   "require": {

@@ -2,7 +2,7 @@
 
 namespace Nip\Router\Router\Traits;
 
-use Nip\Request;
+use \Symfony\Component\HttpFoundation\Request;
 use Nip\Router\Route\Route;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -16,27 +16,12 @@ trait HasMatcherTrait
      * @param Request|ServerRequestInterface $request
      * @return array
      */
-    public function route($request)
+    public function matchRequest(Request $request)
     {
-        $current = false;
-        $uri = $request->path();
-        $routes = $this->getRoutes();
-
-        foreach ($routes as $name => $route) {
-            $route->setRequest($request);
-            if ($route->match($uri)) {
-                $current = $route;
-                break;
-            }
+        $return = parent::matchRequest($request);
+        if (isset($return['_route'])) {
+            $this->setCurrent($this->getRoute($return['_route']));
         }
-
-        if ($current instanceof Route) {
-            $this->setCurrent($current);
-            $current->populateRequest();
-
-            return $current->getParams() + $current->getMatches();
-        } else {
-            return [];
-        }
+        return $return;
     }
 }

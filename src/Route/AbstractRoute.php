@@ -2,6 +2,7 @@
 
 namespace Nip\Router\Route;
 
+use Nip\Router\Legacy\Route\AbstractRouteTrait;
 use Nip\Router\Parsers\Dynamic;
 use Nip\Router\Route\Traits\HasMatchTrait;
 use Nip\Router\Route\Traits\HasParserTrait;
@@ -16,6 +17,8 @@ use Nip\Utility\Traits\NameWorksTrait;
  */
 abstract class AbstractRoute extends \Symfony\Component\Routing\Route
 {
+    use AbstractRouteTrait;
+
     use NameWorksTrait;
     use HasParserTrait;
     use HasTypeTrait;
@@ -37,9 +40,9 @@ abstract class AbstractRoute extends \Symfony\Component\Routing\Route
     /**
      * AbstractRoute constructor.
      * @param bool $map
-     * @param array $params
+     * @param array $defaults
      */
-    public function __construct($map = false, $params = [])
+    public function __construct($map = false, $defaults = [])
     {
         if ($map) {
             $parser = $this->getParser();
@@ -49,16 +52,9 @@ abstract class AbstractRoute extends \Symfony\Component\Routing\Route
             }
         }
 
-        parent::__construct($map);
-
-
-        if (count($params)) {
-            $this->getParser()->setParams($params);
-            $this->setDefaults($params);
-        }
+        parent::__construct($map, $defaults);
         $this->init();
     }
-
 
     public function init()
     {

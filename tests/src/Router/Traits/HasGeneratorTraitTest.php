@@ -2,6 +2,7 @@
 
 namespace Nip\Router\Tests\Router\Traits;
 
+use Nip\Router\Generator\UrlGenerator;
 use Nip\Router\Route\Route;
 use Nip\Router\RouteFactory;
 use Nip\Router\Router;
@@ -14,6 +15,13 @@ use Nip\Router\Tests\Fixtures\Application\Library\Router\Route\StandardRoute;
  */
 class HasGeneratorTraitTest extends AbstractTest
 {
+
+    public function testGetGenerator()
+    {
+        $router = new Router();
+        self::assertInstanceOf(UrlGenerator::class, $router->getGenerator());
+    }
+
     public function testAssemble()
     {
         $router = new Router();

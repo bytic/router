@@ -2,6 +2,7 @@
 
 namespace Nip\Router\ServiceProvider\Traits;
 
+use Nip\Router\RequestContext;
 use Nip\Router\Router;
 
 /**
@@ -12,13 +13,15 @@ trait RouterTrait
 {
     public function registerRouter()
     {
-        $this->getContainer()->singleton('router', self::newRouter());
+        $this->getContainer()->singleton('router', function () {
+            return $this->newRouter();
+        });
     }
 
     /**
      * @return Router
      */
-    public static function newRouter()
+    public function newRouter()
     {
         return new Router();
     }

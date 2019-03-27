@@ -20,6 +20,7 @@ class RouteResolverMiddlewareTest extends AbstractTest
         $request = Request::create('/test');
         $router =\Mockery::mock(Router::class);
         $router->shouldReceive('matchRequest')->with($request);
+        $router->shouldReceive('setContext');
 
         $dispatcher = new Dispatcher(
             [

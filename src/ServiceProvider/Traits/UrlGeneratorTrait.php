@@ -21,25 +21,8 @@ trait UrlGeneratorTrait
     public function registerUrlGenerator()
     {
         $this->getContainer()->singleton('url', function () {
-            $routes = $this->getContainer()->get('routes');
-            $request = $this->getRequest();
-
-            $url = new UrlGenerator(
-                $routes,
-                (new RequestContext())->fromRequest($request)
-            );
-            return $url;
+            $router = $this->getContainer()->get('router');
+            return $router->getGenerator();
         });
-    }
-
-    /**
-     * @return Request
-     */
-    protected function getRequest()
-    {
-        if (function_exists('request')) {
-            return request();
-        }
-        return new Request();
     }
 }

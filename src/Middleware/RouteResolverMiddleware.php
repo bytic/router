@@ -4,6 +4,7 @@ namespace Nip\Router\Middleware;
 
 use Nip\Http\ServerMiddleware\Middlewares\ServerMiddlewareInterface;
 use Nip\Request;
+use Nip\Router\RequestContext;
 use Nip\Router\Router;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -39,6 +40,7 @@ class RouteResolverMiddleware implements ServerMiddlewareInterface
      */
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
+        $this->getRouter()->setContext((new RequestContext())->fromRequest($request));
         $return = $this->getRouter()->matchRequest($request);
         if ($return['_route']) {
             $this->populateRequest($request, $return);

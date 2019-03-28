@@ -72,12 +72,13 @@ trait HasUrlFunctionsTrait
     public function getHttpHost()
     {
         $scheme = $this->getScheme();
-        $port = $this->getHttpPort();
-
-        if (('http' == $scheme && 80 == $port) || ('https' == $scheme && 443 == $port)) {
-            return $this->getHost();
+        $port = '';
+        if ('http' === $scheme && 80 != $this->getHttpPort()) {
+            $port = ':' . $this->getHttpPort();
+        } elseif ('https' === $scheme && 443 != $this->getHttpsPort()) {
+            $port = ':' . $this->getHttpsPort();
         }
 
-        return $this->getHost() . ':' . $port;
+        return $this->getHost() . $port;
     }
 }

@@ -20,6 +20,8 @@
       "src"
     ],
     "files": [
+      "src/functions/application_namespaced.php",
+      "src/functions/url-generation.php"
     ]
   },
   "autoload-dev": {

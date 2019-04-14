@@ -39,7 +39,7 @@
     "bytic/utility": "^1.0",
     "bytic/http": "^0.9",
     "symfony/config": "^3.0|^4.0",
-    "symfony/routing": "^4.2"
+    "symfony/routing": "^4.1"
   },
   "require-dev": {
     "phpunit/phpunit": "^7.5",

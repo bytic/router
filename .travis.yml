@@ -2,8 +2,14 @@ language: php
 
 php:
   - 7.1
+  - 7.2
+
+env:
+  - SYMFONY_ROUTING_VERSION=4.1.*
+  - SYMFONY_ROUTING_VERSION=4.2.*
 
 before_script:
+  - composer require "symfony/routing:${SYMFONY_ROUTING_VERSION}" --no-update
   - composer install --no-interaction
 
 script:

@@ -44,7 +44,7 @@ class RouterTest extends AbstractTest
 
         $request = Request::create('/api/index');
         $params = $router->matchRequest($request);
-        self::assertSame(
+        self::assertEquals(
             ['module' => 'api', '_route' => 'api.index'],
             $params
         );

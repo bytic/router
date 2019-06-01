@@ -78,7 +78,7 @@ class HasMatcherTraitTest extends AbstractTest
 
         $request = Request::create('/api/pages/');
         self::assertEquals(
-            ['module' => 'api', 'controller' => 'pages', 'action' => 'index', '_route' => 'api.standard'],
+            ['module' => 'api', 'controller' => 'pages',  '_route' => 'api.standard.index'],
             $router->matchRequest($request)
         );
 
@@ -102,7 +102,7 @@ class HasMatcherTraitTest extends AbstractTest
 
         $request = Request::create('/users/');
         self::assertEquals(
-            ['controller' => 'users', 'action' => 'index', '_route' => 'frontend.standard'],
+            ['controller' => 'users', '_route' => 'frontend.standard.index'],
             $router->matchRequest($request)
         );
 

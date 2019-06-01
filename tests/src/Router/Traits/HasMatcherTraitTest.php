@@ -47,7 +47,10 @@ class HasMatcherTraitTest extends AbstractTest
         self::assertEquals('admin.index', $router->getCurrent()->getName());
     }
 
-    public function testRouteDynamic()
+    /**
+     * @dataProvider dataRouteDynamic
+     */
+    public function testRouteDynamic($uri, $routeName, $params)
     {
         $router = new Router();
         $collection = $router->getRoutes();
@@ -70,46 +73,30 @@ class HasMatcherTraitTest extends AbstractTest
             StandardRoute::class,
             "/");
 
-        $request = Request::create('/api/pages/delete');
-        self::assertEquals(
-            ['module' => 'api', 'controller' => 'pages', 'action' => 'delete', '_route' => 'api.standard'],
-            $router->matchRequest($request)
-        );
+        $request = Request::create($uri);
+        $matches = $router->matchRequest($request);
 
-        $request = Request::create('/api/pages/');
-        self::assertEquals(
-            ['module' => 'api', 'controller' => 'pages',  '_route' => 'api.standard.index'],
-            $router->matchRequest($request)
-        );
+        self::assertArrayHasKey('_route', $matches);
 
-        $request = Request::create('/api/pages');
-        self::assertEquals(
-            ['module' => 'api', 'controller' => 'pages', 'action' => 'index', '_route' => 'api.standard'],
-            $router->matchRequest($request)
-        );
+        foreach ($params as $param=>$value) {
+            self::assertArrayHasKey($param, $matches);
+            self::assertSame($matches[$param], $value);
+        }
+    }
 
-        $request = Request::create('/admin/pages/delete');
-        self::assertEquals(
-            ['module' => 'admin', 'controller' => 'pages', 'action' => 'delete', '_route' => 'admin.standard'],
-            $router->matchRequest($request)
-        );
-
-        $request = Request::create('/users/delete');
-        self::assertEquals(
-            ['controller' => 'users', 'action' => 'delete', '_route' => 'frontend.standard'],
-            $router->matchRequest($request)
-        );
-
-        $request = Request::create('/users/');
-        self::assertEquals(
-            ['controller' => 'users', '_route' => 'frontend.standard.index'],
-            $router->matchRequest($request)
-        );
-
-        $request = Request::create('/users');
-        self::assertEquals(
-            ['controller' => 'users', 'action' => 'index', '_route' => 'frontend.standard'],
-            $router->matchRequest($request)
-        );
+    /**
+     * @return array
+     */
+    public function dataRouteDynamic()
+    {
+        return [
+            ['/api/pages', 'api.standard', ['module' => 'api', 'controller' => 'pages', 'action' => 'index']],
+            ['/api/pages/', 'api.standard', ['module' => 'api', 'controller' => 'pages', 'action' => 'index']],
+            ['/api/pages/delete', 'api.standard', ['module' => 'api', 'controller' => 'pages', 'action' => 'delete']],
+            ['/admin/pages/delete', 'admin.standard', ['module' => 'admin', 'controller' => 'pages', 'action' => 'delete']],
+            ['/users/delete', 'frontend.standard', ['controller' => 'users', 'action' => 'delete']],
+            ['/users/', 'frontend.standard', ['controller' => 'users', 'action' => 'index']],
+            ['/users', 'frontend.standard', ['controller' => 'users', 'action' => 'index']],
+        ];
     }
 }

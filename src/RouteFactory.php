@@ -91,7 +91,8 @@ class RouteFactory
         $params = []
     ) {
         self::generateGenericRoute($collection, $name, $class, $mapPrefix . $map, $params);
-
+        
+        $params['action'] = 'index';
         return self::generateGenericRoute($collection, $name.'.index', $class, $mapPrefix . '/{controller}/', $params);
     }
 }

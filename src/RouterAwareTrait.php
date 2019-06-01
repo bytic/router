@@ -22,7 +22,11 @@ trait RouterAwareTrait
     public function route($request = false)
     {
         $request = $request ? $request : $this->getRequest();
-        $params = $this->getRouter()->route($request);
+
+        $router = $this->getRouter();
+        $router->setContext((new RequestContext())->fromRequest($this->getRequest()));
+
+        $params = $router->route($request);
 
         return $params;
     }

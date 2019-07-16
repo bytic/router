@@ -23,6 +23,6 @@ trait RouterTrait
      */
     public function newRouter()
     {
-        return $this->getContainer()->get(Router::class);
+        return new Router();
     }
 }

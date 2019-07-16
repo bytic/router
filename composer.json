@@ -21,7 +21,8 @@
     ],
     "files": [
       "src/functions/application_namespaced.php",
-      "src/functions/url-generation.php"
+      "src/functions/general.php",
+      "src/functions/router_namespaced.php"
     ]
   },
   "autoload-dev": {

@@ -2,6 +2,7 @@
 
 namespace Nip\Router\ServiceProvider\Traits;
 
+use Nip\Request;
 use Nip\Router\RequestContext;
 use Nip\Router\Router;
 
@@ -23,6 +24,12 @@ trait RouterTrait
      */
     public function newRouter()
     {
-        return new Router();
+        /** @var Router $router */
+        $router = $this->getContainer()->get(Router::class);
+        $request = Request::instance();
+        if ($request instanceof Request) {
+            $router->setContext((new RequestContext())->fromRequest($request));
+        }
+        return $router;
     }
 }

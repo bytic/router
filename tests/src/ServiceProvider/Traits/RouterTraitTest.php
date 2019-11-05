@@ -7,6 +7,7 @@ use Nip\Router\Router;
 use Nip\Router\RouterServiceProvider;
 use Nip\Router\Tests\AbstractTest;
 use Nip\Router\Tests\Fixtures\Application\Library\Router\CustomRouter;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  * Class RouterServiceProviderTest
@@ -31,7 +32,7 @@ class RouterTraitTest extends AbstractTest
         $provider->setContainer($container);
         $provider->registerRouter();
 
-        $container->singleton(Router::class, CustomRouter::class);
+        $container->singleton(RouterInterface::class, CustomRouter::class);
 
         self::assertInstanceOf(CustomRouter::class, $container->get('router'));
     }

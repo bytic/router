@@ -20,7 +20,7 @@ class RouteLoaderTraitTest extends AbstractTest
             TEST_FIXTURE_PATH . '/application/routes/web.php'
         );
 
-        self::assertCount(6, $collection);
+        self::assertCount(8, $collection);
         self::assertInstanceOf(LiteralRoute::class, $collection->get('default.index'));
         self::assertInstanceOf(StandardRoute::class, $collection->get('default.standard'));
         self::assertInstanceOf(StandardRoute::class, $collection->get('default.standard.index'));

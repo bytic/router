@@ -34,7 +34,7 @@
     }
   },
   "require": {
-    "php": "^7.0",
+    "php": "^7.1.3",
     "bytic/inflector": "^1.0",
     "bytic/container": "^1.0",
     "bytic/utility": "^1.0",

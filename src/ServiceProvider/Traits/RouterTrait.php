@@ -5,6 +5,7 @@ namespace Nip\Router\ServiceProvider\Traits;
 use Nip\Request;
 use Nip\Router\RequestContext;
 use Nip\Router\Router;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  * Trait RouterTrait
@@ -14,7 +15,9 @@ trait RouterTrait
 {
     public function registerRouter()
     {
-        $this->getContainer()->singleton('router', function () {
+        $this->getContainer()->add(RouterInterface::class, Router::class);
+
+        $this->getContainer()->share('router', function () {
             return $this->newRouter();
         });
     }
@@ -25,7 +28,7 @@ trait RouterTrait
     public function newRouter()
     {
         /** @var Router $router */
-        $router = $this->getContainer()->get(Router::class);
+        $router = $this->getContainer()->get(RouterInterface::class);
         $request = Request::instance();
         if ($request instanceof Request) {
             $router->setContext((new RequestContext())->fromRequest($request));

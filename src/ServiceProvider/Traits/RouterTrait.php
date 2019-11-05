@@ -15,10 +15,14 @@ trait RouterTrait
 {
     public function registerRouter()
     {
-        $this->getContainer()->add(RouterInterface::class, Router::class);
-
         $this->getContainer()->singleton('router', function () {
             return $this->newRouter();
+        });
+
+        $this->getContainer()->add(RouterInterface::class, Router::class);
+
+        $this->getContainer()->singleton(Router::class, function () {
+            return $this->getContainer()->get('router');
         });
     }
 

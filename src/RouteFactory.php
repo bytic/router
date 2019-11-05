@@ -23,10 +23,13 @@ class RouteFactory
         $mapPrefix = ''
     ) {
         $params = ["controller" => "index", "action" => "index"];
-        $map = '/';
+
+        self::generateLiteralRoute(
+            $collection, $name.'.slash', $class, $mapPrefix, '', $params
+        );
 
         return self::generateLiteralRoute(
-            $collection, $name, $class, $mapPrefix, $map, $params
+            $collection, $name, $class, $mapPrefix, '/', $params
         );
     }
 

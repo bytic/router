@@ -13,5 +13,4 @@ class RouteFactory
 {
     use HasBaseRoutesTrait;
     use HasModulesRoutesTrait;
-
 }

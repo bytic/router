@@ -99,7 +99,6 @@ trait HasBaseRoutesTrait
         $map = '/{controller}/{action?index}',
         $params = []
     ) {
-
         $class = empty($class) ? StandardRoute::class : $class;
         self::generateGenericRoute($collection, $name, $class, $mapPrefix . $map, $params);
 

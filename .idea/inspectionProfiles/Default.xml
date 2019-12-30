@@ -119,7 +119,7 @@
       <scope name="Tests" level="WARNING" enabled="true">
         <option name="m_regex" value="[a-z][A-Za-z_\d]*" />
         <option name="m_minLength" value="3" />
-        <option name="m_maxLength" value="50" />
+        <option name="m_maxLength" value="100" />
       </scope>
       <option name="m_minLength" value="3" />
       <option name="m_maxLength" value="30" />

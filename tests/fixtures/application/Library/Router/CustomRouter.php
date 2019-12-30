@@ -10,5 +10,4 @@ use Nip\Router\Router;
  */
 class CustomRouter extends Router
 {
-
 }

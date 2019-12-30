@@ -1,4 +1,4 @@
-# View
+# Router
 ByTIC Router component
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/bytic/router.svg?style=flat-square)](https://packagist.org/packages/bytic/router)

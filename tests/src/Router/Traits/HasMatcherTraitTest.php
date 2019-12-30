@@ -16,7 +16,6 @@ use Symfony\Component\Routing\Exception\ResourceNotFoundException;
  */
 class HasMatcherTraitTest extends AbstractTest
 {
-
     public function testNotFound()
     {
         $router = new Router();

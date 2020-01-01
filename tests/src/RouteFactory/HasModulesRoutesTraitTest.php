@@ -24,6 +24,11 @@ class HasModulesRoutesTraitTest extends AbstractTest
         self::assertCount(4, $collection);
 
         self::assertInstanceOf(LiteralRoute::class, $collection->get('admin.slash'));
+        self::assertSame(
+            ['module' => 'admin', 'controller' => 'index', 'action' => 'index'],
+            $collection->get('admin.slash')->getDefaults()
+        );
+
         self::assertInstanceOf(LiteralRoute::class, $collection->get('admin'));
         self::assertInstanceOf(StandardRoute::class, $collection->get('admin.default'));
         self::assertInstanceOf(StandardRoute::class, $collection->get('admin.default.index'));

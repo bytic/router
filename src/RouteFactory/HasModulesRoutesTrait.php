@@ -19,10 +19,24 @@ trait HasModulesRoutesTrait
     public static function generateGenericModuleDefaultRoutes($collection, $module, $prefix)
     {
         $moduleName = is_array($module) ? $module[0] : $module;
-        self::generateIndexRoute($collection, $moduleName, self::generateModuleRouteClassBase($module, 'Literal'),
-            $prefix);
-        self::generateStandardRoute($collection, $moduleName . ".default",
-            self::generateModuleRouteClassBase($module, 'Standard'), $prefix);
+        $params = ['module' => $module];
+
+        self::generateIndexRoute(
+            $collection,
+            $moduleName,
+            self::generateModuleRouteClassBase($module, 'Literal'),
+            $prefix,
+            $params
+        );
+
+        self::generateStandardRoute(
+            $collection,
+            $moduleName . ".default",
+            self::generateModuleRouteClassBase($module, 'Standard'),
+            $prefix,
+            null,
+            $params
+            );
     }
 
     /**

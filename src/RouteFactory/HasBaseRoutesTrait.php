@@ -19,15 +19,18 @@ trait HasBaseRoutesTrait
      * @param $name
      * @param $class
      * @param string $mapPrefix
+     * @param array $params
      * @return mixed
      */
     public static function generateIndexRoute(
         $collection,
         $name,
         $class = null,
-        $mapPrefix = ''
+        $mapPrefix = '',
+        $params = []
     ) {
-        $params = ["controller" => "index", "action" => "index"];
+        $params["controller"] = "index";
+        $params["action"] = "index";
 
         self::generateLiteralRoute(
             $collection, $name . '.slash', $class, $mapPrefix, '', $params
@@ -96,10 +99,12 @@ trait HasBaseRoutesTrait
         $name,
         $class = null,
         $mapPrefix = '',
-        $map = '/{controller}/{action?index}',
+        $map = null,
         $params = []
     ) {
         $class = empty($class) ? StandardRoute::class : $class;
+        $map = $map ? $map : '/{controller}/{action?index}';
+
         self::generateGenericRoute($collection, $name, $class, $mapPrefix . $map, $params);
 
         $params['action'] = 'index';

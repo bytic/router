@@ -3,10 +3,11 @@
 namespace Nip\Router;
 
 use Nip\Request;
+use Nip\Router\Generator\CompiledUrlGenerator;
 use Nip\Router\Generator\UrlGenerator;
+use Nip\Router\Legacy\Router\Traits\HasMatcherTrait as LegacyHasMatcherTrait;
 use Nip\Router\Router\Traits\HasCurrentRouteTrait;
 use Nip\Router\Router\Traits\HasGeneratorTrait;
-use Nip\Router\Legacy\Router\Traits\HasMatcherTrait as LegacyHasMatcherTrait;
 use Nip\Router\Router\Traits\HasMatcherTrait;
 use Nip\Router\Router\Traits\HasRouteCollectionTrait;
 use Psr\Log\LoggerInterface;
@@ -16,6 +17,8 @@ use Symfony\Component\Routing\Loader\ClosureLoader;
 /**
  * Class Router
  * @package Nip\Router
+ *
+ * @method CompiledUrlGenerator getGenerator()
  */
 class Router extends \Symfony\Component\Routing\Router
 {
@@ -35,9 +38,11 @@ class Router extends \Symfony\Component\Routing\Router
         array $options = [],
         RequestContext $context = null,
         LoggerInterface $logger = null
-    ) {
+    )
+    {
         $loader = $loader ?: new ClosureLoader();
-        $options['generator_class'] = isset($options['generator_class']) ? $options['generator_class'] : UrlGenerator::class;
+        $options['generator_class'] = isset($options['generator_class']) ? $options['generator_class'] : CompiledUrlGenerator::class;
+//        $options['generator_base_class'] = isset($options['generator_base_class']) ? $options['generator_base_class'] : UrlGenerator::class;
         $context = $context ?: new RequestContext();
         return parent::__construct($loader, $resource, $options, $context, $logger);
     }

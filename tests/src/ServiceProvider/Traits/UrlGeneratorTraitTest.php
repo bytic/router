@@ -3,8 +3,7 @@
 namespace Nip\Router\Tests\ServiceProvider\Traits;
 
 use Nip\Container\Container;
-use Nip\Router\Generator\UrlGenerator;
-use Nip\Router\RouteCollection;
+use Nip\Router\Generator\CompiledUrlGenerator;
 use Nip\Router\Router;
 use Nip\Router\RouterServiceProvider;
 use Nip\Router\Tests\AbstractTest;
@@ -18,12 +17,14 @@ class UrlGeneratorTraitTest extends AbstractTest
     public function testRegisterRouter()
     {
         $container = new Container();
-        $container->set('router', new Router());
+        $router = new Router();
+        $router->initRouteCollection();
+        $container->set('router', $router);
 
         $provider = new RouterServiceProvider();
         $provider->setContainer($container);
         $provider->registerUrlGenerator();
 
-        self::assertInstanceOf(UrlGenerator::class, $container->get('url'));
+        self::assertInstanceOf(CompiledUrlGenerator::class, $container->get('url'));
     }
 }

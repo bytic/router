@@ -3,10 +3,8 @@
 namespace Nip\Router;
 
 use Nip\Container\ServiceProviders\Providers\AbstractSignatureServiceProvider;
-use Nip\Router\Generator\UrlGenerator;
-use Nip\Router\ServiceProvider\Traits\RouterTrait;
-use Nip\Router\ServiceProvider\Traits\RoutesTrait;
-use Nip\Router\ServiceProvider\Traits\UrlGeneratorTrait;
+use Nip\Router\Console\CacheCommand;
+use Nip\Router\Console\ClearCommand;
 
 /**
  * Class RouterServiceProvider
@@ -14,25 +12,35 @@ use Nip\Router\ServiceProvider\Traits\UrlGeneratorTrait;
  */
 class RouterServiceProvider extends AbstractSignatureServiceProvider
 {
-    use RouterTrait;
-    use RoutesTrait;
-    use UrlGeneratorTrait;
-
-    /**
-     * @inheritdoc
-     */
-    public function register()
-    {
-        $this->registerRouter();
-        $this->registerRoutes();
-        $this->registerUrlGenerator();
-    }
+    use ServiceProvider\Traits\LoaderTrait;
+    use ServiceProvider\Traits\RouterTrait;
+    use ServiceProvider\Traits\RoutesTrait;
+    use ServiceProvider\Traits\UrlGeneratorTrait;
 
     /**
      * @inheritdoc
      */
     public function provides()
     {
-        return ['router', 'routes', 'url'];
+        return ['router', 'routing.loader', 'routes', 'url'];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function register()
+    {
+        $this->registerLoader();
+        $this->registerRouter();
+        $this->registerRoutes();
+        $this->registerUrlGenerator();
+    }
+
+    protected function registerCommands()
+    {
+        $this->commands(
+            CacheCommand::class,
+            ClearCommand::class
+        );
     }
 }

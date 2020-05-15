@@ -20,18 +20,11 @@ class RegexTest extends \Nip\Router\Tests\AbstractTest
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new Regex();
     }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
 
     public function testSetMap()
     {
@@ -42,21 +35,21 @@ class RegexTest extends \Nip\Router\Tests\AbstractTest
         static::assertEquals('shop/:cart', $this->object->getRegex());
 
         $this->object->setMap('shop/:cart');
-        $this->object->setParams(array('cart' => 'test'));
+        $this->object->setParams(['cart' => 'test']);
         static::assertEquals('shop/(test)', $this->object->getRegex());
 
         $this->object->setMap('shop/:cart/:url');
-        $this->object->setParams(array('cart' => 'test', 'url' => '[a-z0-9-]+'));
+        $this->object->setParams(['cart' => 'test', 'url' => '[a-z0-9-]+']);
         static::assertEquals('shop/(test)/([a-z0-9-]+)', $this->object->getRegex());
     }
 
     public function testAssemble()
     {
-        $params = array(
+        $params = [
             'url' => 'lorem',
             'name' => 'ipsum',
             'company' => 'dolo&rem',
-        );
+        ];
         static::assertEquals('?url=lorem&name=ipsum&company=dolo%26rem', $this->object->assemble($params));
 
         $this->object->setMap('shop/:url');

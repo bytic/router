@@ -17,7 +17,11 @@ class RoutesTraitTest extends AbstractTest
     public function testRegisterRouter()
     {
         $container = new Container();
-        $container->set('router', new Router());
+
+        $router = new Router();
+        $router->initRouteCollection();
+        $container->set('router', $router);
+
         $provider = new RouterServiceProvider();
         $provider->setContainer($container);
         $provider->registerRoutes();

@@ -2,7 +2,7 @@
 
 namespace Nip\Router\Tests\Router\Traits;
 
-use Nip\Router\Generator\UrlGenerator;
+use Nip\Router\Generator\CompiledUrlGenerator;
 use Nip\Router\Route\Route;
 use Nip\Router\RouteFactory;
 use Nip\Router\Router;
@@ -18,12 +18,14 @@ class HasGeneratorTraitTest extends AbstractTest
     public function testGetGenerator()
     {
         $router = new Router();
-        self::assertInstanceOf(UrlGenerator::class, $router->getGenerator());
+        $router->initRouteCollection();
+        self::assertInstanceOf(CompiledUrlGenerator::class, $router->getGenerator());
     }
 
     public function testAssemble()
     {
         $router = new Router();
+        $router->initRouteCollection();
         $collection = $router->getRoutes();
 
         RouteFactory::generateLiteralRoute($collection, "admin.index", Route::class, "/admin", "/index");
@@ -48,6 +50,7 @@ class HasGeneratorTraitTest extends AbstractTest
     public function testGenerate()
     {
         $router = new Router();
+        $router->initRouteCollection();
         $collection = $router->getRoutes();
 
         RouteFactory::generateLiteralRoute($collection, "admin.index", Route::class, "/admin", "/index");

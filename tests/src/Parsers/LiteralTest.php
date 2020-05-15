@@ -20,26 +20,18 @@ class LiteralTest extends \Nip\Router\Tests\AbstractTest
      * Sets up the fixture, for example, opens a network connection.
      * This method is called before a test is executed.
      */
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->object = new Literal();
     }
 
-    /**
-     * Tears down the fixture, for example, closes a network connection.
-     * This method is called after a test is executed.
-     */
-    protected function tearDown()
-    {
-    }
-
     public function testAssemble()
     {
-        $params = array(
+        $params = [
             'url' => 'lorem',
             'name' => 'ipsum',
             'company' => 'dolo&rem',
-        );
+        ];
         static::assertEquals('?url=lorem&name=ipsum&company=dolo%26rem', $this->object->assemble($params));
 
         $this->object->setMap('shop/cart');

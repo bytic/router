@@ -18,9 +18,9 @@ trait HasRouteCollectionTrait
      */
     public function getRouteCollection()
     {
-        if (null === $this->collection) {
-            $this->collection = $this->newRoutesCollection();
-        }
+//        if (null === $this->collection) {
+//            $this->collection = $this->newRoutesCollection();
+//        }
         return parent::getRouteCollection();
     }
 
@@ -42,15 +42,6 @@ trait HasRouteCollectionTrait
     }
 
     /**
-     * @param $name
-     * @return bool
-     */
-    public function connected($name)
-    {
-        return ($this->getRoute($name) instanceof Route);
-    }
-
-    /**
      * @param Route $route
      */
     public function addRoute($route)
@@ -59,12 +50,26 @@ trait HasRouteCollectionTrait
     }
 
     /**
+     * @param $name
+     * @return bool
+     */
+    public function connected($name)
+    {
+        return $this->hasRoute($name);
+    }
+
+    /**
      * @param string $name
      * @return bool
      */
     public function hasRoute($name)
     {
-        return $this->getRoutes()->has($name);
+        return $this->getGenerator()->hasRoute($name);
+    }
+
+    public function initRouteCollection()
+    {
+        $this->collection = $this->newRoutesCollection();
     }
 
     /**

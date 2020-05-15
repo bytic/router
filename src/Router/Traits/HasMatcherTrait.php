@@ -20,7 +20,8 @@ trait HasMatcherTrait
     {
         $return = parent::matchRequest($request);
         if (isset($return['_route'])) {
-            $this->setCurrent($this->getRoute($return['_route']));
+            $this->setCurrent($return['_route']);
+//            $this->setCurrent($this->getRoute($return['_route']));
         }
         return $return;
     }

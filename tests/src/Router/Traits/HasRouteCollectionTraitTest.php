@@ -15,6 +15,7 @@ class HasRouteCollectionTraitTest extends AbstractTest
     public function testGetRoute()
     {
         $router = new Router();
+        $router->initRouteCollection();
 
         foreach (['index', 'blog'] as $slug) {
             $route = new Route();

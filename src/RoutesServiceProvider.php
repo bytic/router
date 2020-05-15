@@ -24,13 +24,27 @@ class RoutesServiceProvider extends AbstractSignatureServiceProvider implements 
      */
     public function boot()
     {
+        if ($this->routesAreCached()) {
+            // Call get matcher to load the routes
+//            $this->getContainer()->get('router')->getMatcher();
+            return;
+        }
+
         $this->loadRoutes();
     }
 
     public function loadRoutes()
     {
-        $folder = app('app')->basePath() . DIRECTORY_SEPARATOR . 'routes';
-        require $folder . DIRECTORY_SEPARATOR . 'routes.php';
+    }
+
+    /**
+     * Determine if the application routes are cached.
+     *
+     * @return bool
+     */
+    protected function routesAreCached()
+    {
+        return $this->getContainer()->get('app')->routesAreCached();
     }
 
     /**

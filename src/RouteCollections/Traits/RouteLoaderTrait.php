@@ -2,6 +2,8 @@
 
 namespace Nip\Router\RouteCollections\Traits;
 
+use Symfony\Component\Routing\RouteCollection;
+
 /**
  * Trait RouteLoaderTrait
  * @package Nip\Router\RouteCollections\Traits
@@ -15,6 +17,9 @@ trait RouteLoaderTrait
     public function loadFromIncludedPhp($path)
     {
         /** @noinspection PhpIncludeInspection */
-        require_once $path;
+        $collection = require $path;
+        if ($collection instanceof RouteCollection) {
+            $this->addCollection($collection);
+        }
     }
 }

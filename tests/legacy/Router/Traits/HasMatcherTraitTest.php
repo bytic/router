@@ -2,7 +2,7 @@
 
 namespace Nip\Router\Tests\Legacy\Router\Traits;
 
-use Nip\Request;
+use Nip\Http\Request;
 use Nip\Router\Route\Route;
 use Nip\Router\RouteFactory;
 use Nip\Router\Router;
@@ -19,6 +19,7 @@ class HasMatcherTraitTest extends AbstractTest
     public function testNotFound()
     {
         $router = new Router();
+        $router->initRouteCollection();
         self::expectException(ResourceNotFoundException::class);
 
         $request = Request::create('/404');
@@ -28,6 +29,7 @@ class HasMatcherTraitTest extends AbstractTest
     public function testRouteLiteral()
     {
         $router = new Router();
+        $router->initRouteCollection();
         $collection = $router->getRoutes();
 
         RouteFactory::generateLiteralRoute($collection, "admin.index", Route::class, "/admin", "/index");
@@ -38,17 +40,17 @@ class HasMatcherTraitTest extends AbstractTest
         self::assertEquals(['_route' => 'api.index'], $params);
 
         $currentRoute = $router->getCurrent();
-        self::assertInstanceOf(Route::class, $currentRoute);
-        self::assertEquals('api.index', $currentRoute->getName());
+        self::assertEquals('api.index', $currentRoute);
 
         $request = Request::create('/admin/index');
         $router->route($request);
-        self::assertEquals('admin.index', $router->getCurrent()->getName());
+        self::assertEquals('admin.index', $router->getCurrent());
     }
 
     public function testRouteDynamic()
     {
         $router = new Router();
+        $router->initRouteCollection();
         $collection = $router->getRoutes();
 
         RouteFactory::generateStandardRoute($collection, "admin.standard", StandardRoute::class, "/admin",

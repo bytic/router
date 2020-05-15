@@ -38,8 +38,7 @@ class Router extends \Symfony\Component\Routing\Router
         array $options = [],
         RequestContext $context = null,
         LoggerInterface $logger = null
-    )
-    {
+    ) {
         $loader = $loader ?: new ClosureLoader();
         $options['generator_class'] = isset($options['generator_class']) ? $options['generator_class'] : CompiledUrlGenerator::class;
 //        $options['generator_base_class'] = isset($options['generator_base_class']) ? $options['generator_base_class'] : UrlGenerator::class;

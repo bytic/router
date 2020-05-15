@@ -12,7 +12,6 @@ use Symfony\Component\Routing\Loader\PhpFileLoader;
  */
 trait LoaderTrait
 {
-
     public function registerLoader()
     {
         $this->getContainer()->share('routing.loader', function () {

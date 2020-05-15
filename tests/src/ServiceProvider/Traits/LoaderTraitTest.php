@@ -15,7 +15,6 @@ use Symfony\Component\Config\Loader\DelegatingLoader;
  */
 class LoaderTraitTest extends AbstractTest
 {
-
     public function test_registerLoader()
     {
         $container = new Container();

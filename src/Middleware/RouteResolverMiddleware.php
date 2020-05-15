@@ -42,7 +42,7 @@ class RouteResolverMiddleware implements ServerMiddlewareInterface
     {
         $this->getRouter()->setContext((new RequestContext())->fromRequest($request));
         $return = $this->getRouter()->matchRequest($request);
-        if ($return['_route']) {
+        if (is_array($return) && $return['_route']) {
             $this->populateRequest($request, $return);
         }
 

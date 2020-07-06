@@ -23,7 +23,7 @@ trait HasDefaultRouteTrait
     /**
      * @param $name
      * @param array $params
-     * @return null|Route
+     * @return string
      */
     protected function initDefaultRoute($name, &$params = [])
     {
@@ -31,18 +31,31 @@ trait HasDefaultRouteTrait
         if ($route) {
             return $name;
         }
+        return $this->initMvcRoute($name, $params);
+    }
+
+    /**
+     * @param $name
+     * @param array $params
+     * @return string
+     */
+    protected function initMvcRoute($name, &$params = [])
+    {
         $parts = explode(".", $name);
         $count = count($parts);
-        if ($count <= 3) {
-            if (in_array(reset($parts), app('mvc.modules')->getNames())) {
-                $module = array_shift($parts);
-                $params['controller'] = isset($parts[0]) ? $parts[0] : null;
-                $params['action'] = isset($parts[1]) ? $parts[1] : null;
-                $defaultRoute = $module . '.default';
-                if ($this->hasRoute($defaultRoute)) {
-                    return $defaultRoute;
-                }
-            }
+        if ($count > 3) {
+            return $name;
+        }
+        $firstPart = strtolower(reset($parts));
+        if (!in_array($firstPart, app('mvc.modules')->getNames())) {
+            return $name;
+        }
+        $module = array_shift($parts);
+        $params['controller'] = isset($parts[0]) ? $parts[0] : null;
+        $params['action'] = isset($parts[1]) ? $parts[1] : null;
+        $defaultRoute = $module . '.default';
+        if ($this->hasRoute($defaultRoute)) {
+            return $defaultRoute;
         }
         return $name;
     }

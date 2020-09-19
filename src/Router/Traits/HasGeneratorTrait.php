@@ -19,6 +19,7 @@ trait HasGeneratorTrait
      */
     public function assemble($name, $params = [])
     {
+        $params = (array) $params;
         return $this->generate($name, $params);
     }
 
@@ -29,6 +30,7 @@ trait HasGeneratorTrait
      */
     public function assembleFull($name, $params = [])
     {
+        $params = (array) $params;
         return $this->generate($name, $params, self::ABSOLUTE_URL);
     }
 }

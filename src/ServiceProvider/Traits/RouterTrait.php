@@ -34,7 +34,7 @@ trait RouterTrait
         $app = $this->getContainer()->get('app');
 
         /** @var Router $router */
-        $router = $this->getContainer()->get(
+        $router = $this->getContainer()->make(
             RouterInterface::class,
             [
                 'loader' => $this->getContainer()->get('routing.loader'),

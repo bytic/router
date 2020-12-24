@@ -26,7 +26,9 @@ class RouteResolverMiddlewareTest extends AbstractTest
             [
                 new RouteResolverMiddleware($router),
                 function () {
-                    return (new Response())->setContent('test');
+                    $response = new Response();
+                    $response->setContent('test');
+                    return $response;
                 },
             ]
         );

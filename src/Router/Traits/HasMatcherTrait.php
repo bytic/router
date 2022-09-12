@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Nip\Router\Router\Traits;
 
@@ -16,7 +17,7 @@ trait HasMatcherTrait
      * @param Request|ServerRequestInterface $request
      * @return array
      */
-    public function matchRequest(Request $request)
+    public function matchRequest(Request $request): array
     {
         $return = parent::matchRequest($request);
         if (isset($return['_route'])) {

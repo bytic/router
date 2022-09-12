@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Nip\Router\Middleware;
 
@@ -42,7 +43,7 @@ class RouteResolverMiddleware implements ServerMiddlewareInterface
     {
         $this->getRouter()->setContext((new RequestContext())->fromRequest($request));
         $return = $this->getRouter()->matchRequest($request);
-        if (is_array($return) && $return['_route']) {
+        if (is_array($return) && isset($return['_route'])) {
             $this->populateRequest($request, $return);
         }
 

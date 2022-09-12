@@ -1,8 +1,7 @@
 <?php
+declare(strict_types=1);
 
 namespace Nip\Router\Generator\Traits;
-
-use Nip\Router\Route\Route;
 
 /**
  * Trait HasDefaultRouteTrait
@@ -14,7 +13,7 @@ trait HasDefaultRouteTrait
     /**
      * {@inheritdoc}
      */
-    public function generate($name, $parameters = [], $referenceType = self::ABSOLUTE_PATH)
+    public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
     {
         $name = $this->initDefaultRoute($name, $parameters);
         return parent::generate($name, $parameters, $referenceType);

@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Nip\Router\RouteCollections\Traits;
 
@@ -54,7 +55,7 @@ trait CollectionsOperationsTrait
      * @param $route
      * @return Route|\Symfony\Component\Routing\Route|null
      */
-    public function get($route)
+    public function get($route): ?\Symfony\Component\Routing\Route
     {
         $name = $route instanceof Route ? $route->getName() : $route;
         return parent::get($name);

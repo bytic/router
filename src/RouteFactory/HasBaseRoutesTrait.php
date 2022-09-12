@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Nip\Router\RouteFactory;
 
@@ -76,7 +77,7 @@ trait HasBaseRoutesTrait
         $collection,
         $name,
         $class = null,
-        $map,
+        $map = '',
         $params = []
     ) {
         $map = str_replace('//', '/', $map);

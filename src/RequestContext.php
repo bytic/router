@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Nip\Router;
 
@@ -18,7 +19,7 @@ class RequestContext extends \Symfony\Component\Routing\RequestContext
     /**
      * @inheritdoc
      */
-    public function fromRequest(Request $request)
+    public function fromRequest(Request $request): static
     {
         $this->setHeaders($request->headers);
 

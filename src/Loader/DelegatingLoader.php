@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Nip\Router\Loader;
 
@@ -14,7 +15,7 @@ class DelegatingLoader extends SymfonyDirectoryLoader
     /**
      * {@inheritdoc}
      */
-    public function load($file, $type = null)
+    public function load($file, $type = null): mixed
     {
         $collection = parent::load($file, $type);
         return $this->transformCollection($collection);

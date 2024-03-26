@@ -33,15 +33,11 @@ trait RouterTrait
     {
         $app = $this->getContainer()->get('app');
 
-        /** @var Router $router */
-        $router = $this->getContainer()->make(
-            RouterInterface::class,
+        $router = new Router(
+            $this->getContainer()->get('routing.loader'),
+            'routes.php',
             [
-                'loader' => $this->getContainer()->get('routing.loader'),
-                'resource' => 'routes.php',
-                'options' => [
-                    'cache_dir' => $app->getCachedRoutesPath(),
-                ]
+                'cache_dir' => $app->getCachedRoutesPath(),
             ]
         );
 

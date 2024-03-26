@@ -5,6 +5,7 @@ namespace Nip\Router;
 use Nip\Container\ServiceProviders\Providers\AbstractSignatureServiceProvider;
 use Nip\Router\Console\CacheCommand;
 use Nip\Router\Console\ClearCommand;
+use Symfony\Component\Routing\RouterInterface;
 
 /**
  * Class RouterServiceProvider
@@ -22,7 +23,14 @@ class RouterServiceProvider extends AbstractSignatureServiceProvider
      */
     public function provides()
     {
-        return ['router', 'routing.loader', 'routes', 'url'];
+        return [
+            'router',
+            Router::class,
+            RouterInterface::class,
+            'routing.loader',
+            'routes',
+            'url'
+        ];
     }
 
     /**

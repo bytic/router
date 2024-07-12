@@ -16,7 +16,7 @@ trait HasRouteCollectionTrait
      * @inheritdoc
      * @return RouteCollection
      */
-    public function getRouteCollection()
+    public function getRouteCollection(): RouteCollection
     {
 //        if (null === $this->collection) {
 //            $this->collection = $this->newRoutesCollection();

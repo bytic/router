@@ -16,6 +16,7 @@ trait HasDefaultRouteTrait
     public function generate(string $name, array $parameters = [], int $referenceType = self::ABSOLUTE_PATH): string
     {
         $name = $this->initDefaultRoute($name, $parameters);
+        $parameters['action'] = $parameters['action'] ?? 'index';
         return parent::generate($name, $parameters, $referenceType);
     }
 

@@ -4,5 +4,6 @@
 tests/_output/*
 
 vendor/*
+/tests/compatibility/vendor/
 
 composer.lock

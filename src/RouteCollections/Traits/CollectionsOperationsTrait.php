@@ -48,7 +48,7 @@ trait CollectionsOperationsTrait
     {
         $name = $route instanceof Route ? $route->getName() : $route;
 
-        return $this->get($name) instanceof Route;
+        return $this->get($name) instanceof \Symfony\Component\Routing\Route;
     }
 
     /**

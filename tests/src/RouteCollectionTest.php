@@ -39,4 +39,16 @@ class RouteCollectionTest extends AbstractTest
         self::assertCount(1, $collection);
         self::assertSame(1, $collection->count());
     }
+
+    public function testSymfonyRouteIsAccessible()
+    {
+        $collection = new RouteCollection();
+        $route = new \Symfony\Component\Routing\Route('/articles/{id}');
+        $collection->add('article', $route);
+
+        self::assertTrue($collection->has('article'));
+        self::assertTrue(isset($collection['article']));
+        self::assertSame($route, $collection['article']);
+        self::assertFalse($collection->has('missing'));
+    }
 }

@@ -37,15 +37,19 @@
     "php": "^8.0",
     "bytic/inflector": "^1.0|^2.0",
     "bytic/utility": "^1.0",
-    "symfony/routing": "^5.0|^6.0|^7.0"
+    "symfony/config": "^5.0|^6.0|^7.0|^8.0",
+    "symfony/http-foundation": "^5.0|^6.0|^7.0|^8.0",
+    "symfony/routing": "^5.0|^6.0|^7.0|^8.0"
   },
   "require-dev": {
     "bytic/console": "^1.0|^2.0",
     "bytic/config": "^1.0|^2.0",
-    "bytic/container": "^1.0|^2.0|^2.0",
+    "bytic/container": "^1.0|^2.0",
     "bytic/http": "^1.0|^2.0",
     "bytic/phpqatools": "^1.0",
-    "phpbench/phpbench": "^1.0"
+    "mockery/mockery": "^1.6",
+    "phpbench/phpbench": "^1.0",
+    "phpunit/phpunit": "^9.6"
   },
   "prefer-stable": true,
   "minimum-stability": "dev",

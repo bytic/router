@@ -18,10 +18,13 @@ trait HasRouteCollectionTrait
      */
     public function getRouteCollection(): RouteCollection
     {
-//        if (null === $this->collection) {
-//            $this->collection = $this->newRoutesCollection();
-//        }
-        return parent::getRouteCollection();
+        $collection = parent::getRouteCollection();
+        if (!$collection instanceof RouteCollection) {
+            $this->collection = $this->newRoutesCollection();
+            $this->collection->addCollection($collection);
+        }
+
+        return $this->collection;
     }
 
     /**

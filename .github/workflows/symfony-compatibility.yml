@@ -1,0 +1,35 @@
+name: Symfony compatibility
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  compatibility:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - php: '8.0'
+            symfony: '^5.4'
+          - php: '8.1'
+            symfony: '^6.4'
+          - php: '8.2'
+            symfony: '^7.4'
+          - php: '8.4'
+            symfony: '^8.0'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
+          coverage: none
+      - name: Install Symfony dependencies
+        working-directory: tests/compatibility
+        run: |
+          composer require --no-update "symfony/config:${{ matrix.symfony }}" "symfony/http-foundation:${{ matrix.symfony }}" "symfony/routing:${{ matrix.symfony }}"
+          composer update --no-interaction --prefer-dist --no-progress
+      - name: Test Symfony integration
+        run: tests/compatibility/vendor/bin/phpunit --no-configuration --bootstrap tests/compatibility/vendor/autoload.php tests/compatibility/SymfonyCompatibilityTest.php

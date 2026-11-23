@@ -83,6 +83,14 @@ class RouteResolverMiddleware implements ServerMiddlewareInterface
         if ($request instanceof Request) {
             return $request;
         }
+        if ($request instanceof PsrRequest) {
+            $embeddedRequest = $request->getSymfonyRequest();
+            if ((string) $request->getUri() === $embeddedRequest->getUri()
+                && $request->getMethod() === $embeddedRequest->getMethod()) {
+                return $embeddedRequest;
+            }
+        }
+
         $symfonyRequest = Request::create(
             (string) $request->getUri(),
             $request->getMethod(),

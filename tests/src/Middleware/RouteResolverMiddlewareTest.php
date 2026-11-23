@@ -91,6 +91,30 @@ class RouteResolverMiddlewareTest extends AbstractTest
         self::assertSame('https://example.com/previous', $router->getContext()->getHeaders()->get('referer'));
     }
 
+    public function testPsrRequestUsesItsEmbeddedSymfonyRequestForMatching(): void
+    {
+        if (!class_exists(PsrRequest::class)) {
+            self::markTestSkipped('This version of bytic/http does not provide PsrRequest.');
+        }
+
+        $embeddedRequest = SymfonyRequest::create('https://example.com/app/articles/42', 'GET', [], [], [], [
+            'SCRIPT_NAME' => '/app/index.php',
+            'SCRIPT_FILENAME' => '/var/www/app/index.php',
+        ]);
+        $request = new PsrRequest($embeddedRequest);
+        $router = \Mockery::mock(Router::class);
+        $router->shouldReceive('setContext')->once()->with(\Mockery::on(function ($context) {
+            return $context->getBaseUrl() === '/app'
+                && $context->getPathInfo() === '/articles/42';
+        }));
+        $router->shouldReceive('matchRequest')->once()->with($request->getSymfonyRequest())->andReturn([]);
+        $response = \Mockery::mock(ResponseInterface::class);
+        $handler = \Mockery::mock(RequestHandlerInterface::class);
+        $handler->shouldReceive('handle')->once()->with($request)->andReturn($response);
+
+        self::assertSame($response, (new RouteResolverMiddleware($router))->process($request, $handler));
+    }
+
     public function testGenericPsrRequestCanBeMatched(): void
     {
         $uri = \Mockery::mock(UriInterface::class);

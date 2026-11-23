@@ -87,6 +87,7 @@ class RouteResolverMiddleware implements ServerMiddlewareInterface
             $embeddedRequest = $request->getSymfonyRequest();
             if ((string) $request->getUri() === $embeddedRequest->getUri()
                 && $request->getMethod() === $embeddedRequest->getMethod()) {
+                $embeddedRequest->query->replace($request->getQueryParams());
                 return $embeddedRequest;
             }
         }
@@ -99,6 +100,7 @@ class RouteResolverMiddleware implements ServerMiddlewareInterface
             [],
             $request->getServerParams()
         );
+        $symfonyRequest->query->replace($request->getQueryParams());
         $symfonyRequest->headers->replace($request->getHeaders());
         $symfonyRequest->attributes->add($request->getAttributes());
 

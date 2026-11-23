@@ -102,12 +102,16 @@ class RouteResolverMiddlewareTest extends AbstractTest
             'SCRIPT_FILENAME' => '/var/www/app/index.php',
         ]);
         $request = new PsrRequest($embeddedRequest);
+        $request = $request->withQueryParams(['source' => 'psr']);
         $router = \Mockery::mock(Router::class);
         $router->shouldReceive('setContext')->once()->with(\Mockery::on(function ($context) {
             return $context->getBaseUrl() === '/app'
                 && $context->getPathInfo() === '/articles/42';
         }));
-        $router->shouldReceive('matchRequest')->once()->with($request->getSymfonyRequest())->andReturn([]);
+        $router->shouldReceive('matchRequest')->once()->with(\Mockery::on(function (SymfonyRequest $symfonyRequest) use ($request) {
+            return $symfonyRequest === $request->getSymfonyRequest()
+                && $symfonyRequest->query->all() === ['source' => 'psr'];
+        }))->andReturn([]);
         $response = \Mockery::mock(ResponseInterface::class);
         $handler = \Mockery::mock(RequestHandlerInterface::class);
         $handler->shouldReceive('handle')->once()->with($request)->andReturn($response);
@@ -138,5 +142,28 @@ class RouteResolverMiddlewareTest extends AbstractTest
         self::assertSame($response, (new RouteResolverMiddleware($router))->process($request, $handler));
         self::assertSame('item', $router->getCurrent());
         self::assertSame('https://example.com', $router->getContext()->root());
+    }
+
+    public function testGenericPsrQueryParamsAreUsedWhenAdaptingTheRequest(): void
+    {
+        $uri = \Mockery::mock(UriInterface::class);
+        $uri->shouldReceive('__toString')->andReturn('https://example.com/items/7?source=uri');
+        $request = \Mockery::mock(ServerRequestInterface::class);
+        $request->shouldReceive('getUri')->andReturn($uri);
+        $request->shouldReceive('getMethod')->andReturn('GET');
+        $request->shouldReceive('getCookieParams', 'getServerParams', 'getAttributes')->andReturn([]);
+        $request->shouldReceive('getQueryParams')->andReturn(['source' => 'psr']);
+        $request->shouldReceive('getHeaders')->andReturn([]);
+
+        $router = \Mockery::mock(Router::class);
+        $router->shouldReceive('setContext')->once();
+        $router->shouldReceive('matchRequest')->once()->with(\Mockery::on(function (SymfonyRequest $symfonyRequest) {
+            return $symfonyRequest->query->all() === ['source' => 'psr'];
+        }))->andReturn([]);
+        $response = \Mockery::mock(ResponseInterface::class);
+        $handler = \Mockery::mock(RequestHandlerInterface::class);
+        $handler->shouldReceive('handle')->once()->with($request)->andReturn($response);
+
+        self::assertSame($response, (new RouteResolverMiddleware($router))->process($request, $handler));
     }
 }
